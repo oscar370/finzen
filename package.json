@@ -1,0 +1,74 @@
+{
+  "name": "finzen",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.2.9",
+    "@hookform/resolvers": "^5.2.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.19",
+    "dexie": "^4.2.1",
+    "dexie-react-hooks": "^4.2.0",
+    "i18next": "^25.7.3",
+    "lucide-react": "^0.562.0",
+    "motion": "^12.23.26",
+    "react": "^19.2.0",
+    "react-currency-input-field": "^4.0.3",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.69.0",
+    "react-hot-toast": "^2.6.0",
+    "react-i18next": "^16.5.0",
+    "react-router-dom": "^7.11.0",
+    "tailwindcss": "^4.1.18",
+    "valibot": "^1.2.0",
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.3",
+    "@eslint/js": "^9.39.1",
+    "@storybook/addon-a11y": "^10.1.10",
+    "@storybook/addon-docs": "^10.1.10",
+    "@storybook/addon-onboarding": "^10.1.10",
+    "@storybook/addon-vitest": "^10.1.10",
+    "@storybook/react-vite": "^10.1.10",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitest/browser-playwright": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.16",
+    "eslint": "^9.39.1",
+    "eslint-plugin-check-file": "^3.3.1",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-storybook": "^10.1.10",
+    "globals": "^16.5.0",
+    "playwright": "^1.57.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "storybook": "^10.1.10",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.16"
+  },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
+    "tailwindFunctions": [
+      "clsx"
+    ]
+  }
+}
