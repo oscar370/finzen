@@ -27,7 +27,6 @@ export default defineConfig([
       "check-file": checkFilePlugin,
       import: importPlugin,
     },
-    ignores: [".litlelitleold/**", ".olds/**"],
     rules: {
       "check-file/filename-naming-convention": [
         "error",
@@ -51,30 +50,6 @@ export default defineConfig([
         "error",
         {
           zones: [
-            // disables cross-feature imports:
-            // eg. src/features/discussions should not import from src/features/comments, etc.
-            {
-              target: "./src/features/accounts",
-              from: "./src/features",
-              except: ["./accounts"],
-            },
-            {
-              target: "./src/features/currency",
-              from: "./src/features",
-              except: ["./currency"],
-            },
-            {
-              target: "./src/features/transactions",
-              from: "./src/features",
-              except: ["./transactions"],
-            },
-            {
-              target: "./src/features/analytics",
-              from: "./src/features",
-              except: ["./analytics"],
-            },
-
-            // More restrictions...
             // e.g src/features and src/app can import from these shared modules but not the other way around
             {
               target: "./src/features",
@@ -82,9 +57,12 @@ export default defineConfig([
             },
             {
               target: [
+                "./src/api",
                 "./src/components",
+                "./src/data",
                 "./src/hooks",
                 "./src/lib",
+                "./src/stores",
                 "./src/types",
                 "./src/utils",
               ],

@@ -6,7 +6,8 @@ export type Transaction = {
   kind: "expense" | "income";
   note: string;
   accountId: string;
-  destinationAccountId?: string | undefined;
+  transferId?: string;
+  relatedAccountId?: string;
   categoryId: string;
   categoryIcon: string;
   archive: 0 | 1;
@@ -16,14 +17,7 @@ export type Transaction = {
 
 export type DraftTransaction = Pick<
   Transaction,
-  | "name"
-  | "amount"
-  | "date"
-  | "kind"
-  | "note"
-  | "accountId"
-  | "destinationAccountId"
-  | "categoryId"
+  "name" | "amount" | "date" | "kind" | "note" | "accountId" | "categoryId"
 >;
 
 export type DraftTransactionForm = Omit<DraftTransaction, "date"> & {
@@ -31,5 +25,17 @@ export type DraftTransactionForm = Omit<DraftTransaction, "date"> & {
 };
 
 export type TransactionForm = Omit<Transaction, "date"> & {
+  date: string;
+};
+
+export type Transfer = {
+  fromAccountId: string;
+  toAccountId: string;
+  amount: number;
+  date: number;
+  note: string;
+};
+
+export type TransferForm = Omit<Transfer, "date"> & {
   date: string;
 };

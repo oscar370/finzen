@@ -9,47 +9,58 @@ const DEFAULT_CATEGORIES: Partial<Category>[] = [
     name: "labels.system",
     icon: "bolt",
     id: "system",
+    color: "#6B7280",
   },
   {
     name: "labels.food",
     icon: "utensils",
+    color: "#F59E0B",
   },
   {
     name: "labels.transport",
     icon: "car",
+    color: "#3B82F6",
   },
   {
     name: "labels.housing",
     icon: "home",
+    color: "#10B981",
   },
   {
     name: "labels.entertainment",
     icon: "gamepad",
+    color: "#8B5CF6",
   },
   {
     name: "labels.health",
     icon: "heart",
+    color: "#EF4444",
   },
   {
     name: "labels.shopping",
     icon: "shoppingBag",
+    color: "#EC4899",
   },
   {
     name: "labels.salary",
     icon: "wallet",
+    color: "#22C55E",
   },
   {
     name: "labels.investments",
     icon: "trendingUp",
+    color: "#0EA5E9",
   },
   {
     name: "labels.gifts",
     icon: "gift",
+    color: "#F97316",
   },
   {
     name: "labels.others",
     icon: "helpCircle",
     id: UNCATEGORIZED_ID,
+    color: "#9CA3AF",
   },
 ];
 
@@ -63,6 +74,7 @@ export async function seedCategories() {
     id: cat.id || crypto.randomUUID(),
     name: cat.name!,
     icon: cat.icon!,
+    color: cat.color!,
     archive: 0,
     updatedAt: now,
     syncStatus: "pending",
@@ -95,6 +107,37 @@ export function useCategories() {
   return (
     useLiveQuery(() =>
       db.categories.where("archive").equals(0).sortBy("name"),
+    ) ?? []
+  );
+}
+
+export function useAvailableCategories(
+  year: number,
+  month: number,
+  selectedKind: "income" | "expense",
+) {
+  return (
+    useLiveQuery(async () => {
+      const [allCategories, currentBudgets] = await Promise.all([
+        db.categories.where("archive").equals(0).toArray(),
+        db.budget
+          .where("[year+month]")
+          .equals([year, month])
+          .filter((b) => b.deleted === 0 && b.kind === selectedKind)
+          .toArray(),
+      ]);
+
+      const usedIds = new Set(currentBudgets.map((b) => b.categoryId));
+
+      return allCategories.filter((cat) => !usedIds.has(cat.id));
+    }, [year, month, selectedKind]) ?? []
+  );
+}
+
+export function useArchivedCategories() {
+  return (
+    useLiveQuery(() =>
+      db.categories.where("archive").equals(1).sortBy("name"),
     ) ?? []
   );
 }
@@ -135,6 +178,53 @@ export function useExpensesByCategory(from: number, to: number) {
   }, [from, to]);
 }
 
+export async function updateCategory(data: Category) {
+  const now = Date.now();
+
+  try {
+    await db.transaction(
+      "rw",
+      [db.categories, db.budget, db.transactions],
+      async () => {
+        const oldCategory = await db.categories.get(data.id);
+
+        if (!oldCategory) throw new Error("Category not found");
+
+        const hasIconChanged = oldCategory.icon !== data.icon;
+        const hasNameChanged = oldCategory.name !== data.name;
+
+        await db.categories.put({
+          ...data,
+          updatedAt: now,
+          syncStatus: "pending",
+        });
+
+        if (hasIconChanged || hasNameChanged) {
+          await db.budget.where("categoryId").equals(data.id).modify({
+            categoryName: data.name,
+            categoryIcon: data.icon,
+            updatedAt: now,
+            syncStatus: "pending",
+          });
+        }
+
+        if (hasIconChanged) {
+          await db.transactions.where("categoryId").equals(data.id).modify({
+            categoryIcon: data.icon,
+            updatedAt: now,
+            syncStatus: "pending",
+          });
+        }
+      },
+    );
+
+    return { ok: true };
+  } catch (error) {
+    console.error("Error updating category and cascading changes:", error);
+    return { ok: false };
+  }
+}
+
 export async function archiveCategory(id: string) {
   if (id === UNCATEGORIZED_ID) return;
 
@@ -158,19 +248,24 @@ export async function archiveCategory(id: string) {
     });
 }
 
-export async function updateCategory(data: Category) {
-  const now = Date.now();
+export async function unarchiveCategory(id: string) {
+  if (id === UNCATEGORIZED_ID) return;
 
-  try {
-    await db.categories.update(data.id, {
-      ...data,
-      updatedAt: now,
-      syncStatus: "pending",
+  return await db
+    .transaction("rw", [db.categories], async () => {
+      const category = await db.categories.get(id);
+      if (!category) throw new Error("Category not found");
+
+      await db.categories.update(id, {
+        archive: 0,
+        updatedAt: Date.now(),
+        syncStatus: "pending",
+      });
+
+      return { ok: true };
+    })
+    .catch((error) => {
+      console.error("Error unarchiving category:", error);
+      return { ok: false };
     });
-
-    return { ok: true };
-  } catch (error) {
-    console.error("Error updating category:", error);
-    return { ok: false };
-  }
 }

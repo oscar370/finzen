@@ -1,15 +1,27 @@
-import { TitleBar } from "@/components/ui/title-bar";
-import { AccountsList } from "@/features/accounts";
-import { t } from "i18next";
+import { useAccounts } from "@/api/accounts";
+import { ButtonRow } from "@/components/ui/button-row";
+import { ListBox } from "@/components/ui/list-box";
+import { NavigationPage } from "@/components/ui/navigation-page";
+import { AccountItems } from "@/features/accounts";
+import { Plus } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export function Accounts() {
-  return (
-    <>
-      <TitleBar title={t("sections.accounts", { ns: "common" })} />
+  const { t } = useTranslation("common");
+  const navigate = useNavigate();
+  const accounts = useAccounts();
 
-      <main className="mx-auto max-w-150 px-1 py-3">
-        <AccountsList />
-      </main>
-    </>
-  );
+  if (accounts)
+    return (
+      <NavigationPage title={t("sections.accounts")}>
+        <ListBox>
+          <ButtonRow role="link" onClick={() => navigate("new")}>
+            <Plus />
+            <span>{t("buttons.add", { ns: "accounts" })}</span>
+          </ButtonRow>
+          <AccountItems accounts={accounts} />
+        </ListBox>
+      </NavigationPage>
+    );
 }

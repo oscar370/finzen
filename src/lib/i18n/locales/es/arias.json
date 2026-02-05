@@ -1,0 +1,20 @@
+{
+  "carousel": {
+    "label": "Carrusel",
+    "slide-label": "Diapositiva",
+    "previous-label": "Anterior diapositiva",
+    "next-label": "Siguiente diapositiva",
+    "tab-label": "Ir a la diapositiva"
+  },
+  "header-bar": {
+    "title": "Titulo de la página",
+    "back-button": "Ir atrás"
+  },
+  "modal": {
+    "title": "Titulo del modal",
+    "close-button": "Cerrar"
+  },
+  "sidebar": {
+    "toggle-button": "Alternar barra lateral"
+  }
+}

@@ -1,44 +1,41 @@
-import "@/index.css";
-import type { Meta, StoryObj } from "@storybook/react";
-import { useForm } from "react-hook-form";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
 import { Select } from "./select";
 
-const meta: Meta<typeof Select> = {
+const meta = {
   component: Select,
-};
+} satisfies Meta<typeof Select>;
 
 export default meta;
 type Story = StoryObj<typeof Select>;
 
-export const Default: Story = {
+export const SelectStory: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { register } = useForm();
+    const [select, setSelect] = useState("visible");
+    const [anotherSelect, setAnotherSelect] = useState("");
 
     return (
-      <>
+      <div className="flex flex-col gap-4">
         <Select
-          label="Select an option"
-          name="select"
-          register={register}
-          variant="default"
-        >
-          <option value="">-- Select --</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-        </Select>
+          title="Visibility"
+          onChange={setSelect}
+          options={[
+            { label: "Visible", value: "visible" },
+            { label: "Invisible", value: "invisible" },
+          ]}
+          value={select}
+        />
 
         <Select
-          label="Select an option"
-          name="select"
-          register={register}
-          variant="form"
-        >
-          <option value="">-- Select --</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-        </Select>
-      </>
+          options={[
+            { label: "Visible", value: "visible" },
+            { label: "Invisible", value: "invisible" },
+          ]}
+          placeholder="Select a option"
+          onChange={setAnotherSelect}
+          value={anotherSelect}
+        />
+      </div>
     );
   },
 };

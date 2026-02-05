@@ -1,17 +1,31 @@
 import { useAppStore } from "@/stores/use-app-store";
 import { t } from "i18next";
+import {
+  Banknote,
+  ChartColumnBig,
+  Home,
+  Settings,
+  Tags,
+  TrendingDown,
+  TrendingUp,
+  Wallet,
+} from "lucide-react";
 import { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
-import { Outlet, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { ActionRow } from "../ui/action-row";
+import { ListBox } from "../ui/list-box";
 import { Sidebar } from "../ui/sidebar";
+import { SplitView } from "../ui/split-view";
 
 const SIDEBAR_BUTTONS = [
-  { label: "sections.home", to: "/home" },
-  { label: "sections.accounts", to: "/accounts" },
-  { label: "sections.incomes", to: "/incomes" },
-  { label: "sections.expenses", to: "/expenses" },
-  { label: "sections.categories", to: "/categories" },
+  { label: "sections.home", to: "/home", icon: Home },
+  { label: "sections.analytics", to: "/analytics", icon: ChartColumnBig },
+  { label: "sections.accounts", to: "/accounts", icon: Wallet },
+  { label: "sections.incomes", to: "/incomes", icon: TrendingUp },
+  { label: "sections.expenses", to: "/expenses", icon: TrendingDown },
+  { label: "sections.categories", to: "/categories", icon: Tags },
+  { label: "sections.budgets", to: "/budgets", icon: Banknote },
+  { label: "sections.settings", to: "/settings", icon: Settings },
 ];
 
 export function AppLayout() {
@@ -27,42 +41,32 @@ export function AppLayout() {
     setSidebarOpen((prev) => !prev);
   }
 
-  function handleGoTo(url: string) {
-    handleToggleSidebar();
-    navigate(url);
-  }
-
   return (
     <>
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={handleToggleSidebar}>
-        <div className="grid sm:grid-cols-[minmax(min-content,200px)_1fr]">
+      <Sidebar open={isSidebarOpen} onToggle={handleToggleSidebar}>
+        <SplitView>
           <Sidebar.Panel>
-            <div className="space-y-1 px-1 py-12">
-              {SIDEBAR_BUTTONS.map(({ label, to }) => (
-                <Button
+            <ListBox as="nav">
+              {SIDEBAR_BUTTONS.map(({ label, to, icon: Icon }) => (
+                <ActionRow
                   key={to}
-                  variant="nav"
-                  data-active={location.pathname === to ? true : undefined}
-                  onClick={() => handleGoTo(to)}
-                >
-                  {t(label, { ns: "common" })}
-                </Button>
+                  title={t(label, { ns: "common" })}
+                  as={Link}
+                  isActive={location.pathname === to ? true : undefined}
+                  onClick={handleToggleSidebar}
+                  icon={<Icon />}
+                  accent="text-(--text)"
+                  to={to}
+                />
               ))}
-            </div>
+            </ListBox>
           </Sidebar.Panel>
 
           <div className="overflow-x-hidden">
             <Outlet />
           </div>
-        </div>
+        </SplitView>
       </Sidebar>
-
-      <Toaster
-        toastOptions={{
-          className:
-            "bg-[color-mix(in_srgb,var(--background),var(--text)_15%)]!  text-(--text)!",
-        }}
-      />
     </>
   );
 }

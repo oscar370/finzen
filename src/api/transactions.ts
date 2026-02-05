@@ -1,6 +1,12 @@
 import { db } from "@/lib/dexie";
-import type { DraftTransaction, Transaction } from "@/types/transactions";
+import type {
+  DraftTransaction,
+  Transaction,
+  Transfer,
+} from "@/types/transactions";
+import Dexie from "dexie";
 import { useLiveQuery } from "dexie-react-hooks";
+import { t } from "i18next";
 import { syncMonthlySummary } from "./monthly-summary";
 
 export async function addTransaction(data: DraftTransaction) {
@@ -44,41 +50,149 @@ export async function addTransaction(data: DraftTransaction) {
   }
 }
 
+export async function addTransfer(transfer: Transfer) {
+  const transferId = crypto.randomUUID();
+  const now = Date.now();
+
+  return await db
+    .transaction("rw", [db.accounts, db.transactions], async () => {
+      if (transfer.fromAccountId === transfer.toAccountId)
+        throw new Error("Cannot transfer to same account");
+
+      const fromAccount = await db.accounts.get(transfer.fromAccountId);
+      const toAccount = await db.accounts.get(transfer.toAccountId);
+      if (!fromAccount || !toAccount) throw new Error("Accounts not found");
+
+      const outflowTxn: Transaction = {
+        id: crypto.randomUUID(),
+        name: `${t("transactions.transfer", { ns: "transactions" })} ${toAccount.name}`,
+        kind: "expense",
+        amount: transfer.amount,
+        date: transfer.date,
+        accountId: transfer.fromAccountId,
+        categoryId: "system",
+        categoryIcon: "bolt",
+        note: transfer.note,
+        transferId: transferId,
+        relatedAccountId: transfer.toAccountId,
+        updatedAt: now,
+        archive: 0,
+        syncStatus: "pending",
+      };
+
+      const inflowTxn: Transaction = {
+        id: crypto.randomUUID(),
+        name: `${t("transactions.transfer", { ns: "transactions" })} ${toAccount.name}`,
+        kind: "income",
+        amount: transfer.amount,
+        date: transfer.date,
+        accountId: transfer.toAccountId,
+        categoryId: "system",
+        categoryIcon: "bolt",
+        note: transfer.note,
+        transferId: transferId,
+        relatedAccountId: transfer.fromAccountId,
+        updatedAt: now,
+        archive: 0,
+        syncStatus: "pending",
+      };
+
+      await db.transactions.bulkAdd([outflowTxn, inflowTxn]);
+
+      await db.accounts.update(transfer.fromAccountId, {
+        balance: fromAccount.balance - transfer.amount,
+        updatedAt: now,
+        syncStatus: "pending",
+      });
+
+      await db.accounts.update(transfer.toAccountId, {
+        balance: toAccount.balance + transfer.amount,
+        updatedAt: now,
+        syncStatus: "pending",
+      });
+
+      return { ok: true };
+    })
+    .catch((err) => {
+      console.error("Transfer error:", err);
+      return { ok: false };
+    });
+}
+
 export function useIncomes(
   from: number,
   to: number,
-  page: number,
-  pageSize: number,
+  limit: number,
+  search?: string,
+  categoryId?: string,
 ) {
   return (
     useLiveQuery(async () => {
-      return await db.transactions
+      const collection = db.transactions
         .where("[archive+kind+date]")
         .between([0, "income", from], [0, "income", to], true, true)
         .reverse()
-        .offset(page * pageSize)
-        .limit(pageSize)
-        .toArray();
-    }, [from, to, page, pageSize]) ?? []
+        .limit(limit);
+
+      let items = await collection.toArray();
+
+      if (categoryId) items = items.filter((t) => t.categoryId === categoryId);
+      if (search) {
+        const s = search.toLowerCase();
+        items = items.filter(
+          (t) =>
+            t.name.toLowerCase().includes(s) ||
+            t.note?.toLowerCase().includes(s),
+        );
+      }
+
+      return items;
+    }, [from, to, limit, search, categoryId]) ?? []
   );
 }
 
 export function useExpenses(
   from: number,
   to: number,
-  page: number,
-  pageSize: number,
+  limit: number,
+  search?: string,
+  categoryId?: string,
 ) {
   return (
     useLiveQuery(async () => {
-      return await db.transactions
+      const collection = db.transactions
         .where("[archive+kind+date]")
         .between([0, "expense", from], [0, "expense", to], true, true)
         .reverse()
-        .offset(page * pageSize)
-        .limit(pageSize)
+        .limit(limit);
+
+      let items = await collection.toArray();
+
+      if (categoryId) items = items.filter((t) => t.categoryId === categoryId);
+      if (search) {
+        const s = search.toLowerCase();
+        items = items.filter(
+          (t) =>
+            t.name.toLowerCase().includes(s) ||
+            t.note?.toLowerCase().includes(s),
+        );
+      }
+
+      return items;
+    }, [from, to, limit, search, categoryId]) ?? []
+  );
+}
+
+export function useTransactions(limit: number = 5) {
+  return (
+    useLiveQuery(async () => {
+      return await db.transactions
+        .where("[archive+date]")
+        .between([0, Dexie.minKey], [0, Dexie.maxKey])
+        .reverse()
+        .limit(limit)
         .toArray();
-    }, [from, to, page, pageSize]) ?? []
+    }, [limit]) ?? []
   );
 }
 
@@ -100,10 +214,24 @@ export function useTransactionsByAccount(
   );
 }
 
-export function useTransactionsById(id: string) {
+export function useTransactionById(id: string) {
   return useLiveQuery(async () => {
     return await db.transactions.where("id").equals(id).first();
   }, [id]);
+}
+
+export function useArchivedTransactions(page: number, pageSize: number) {
+  return (
+    useLiveQuery(async () => {
+      return await db.transactions
+        .where("archive")
+        .equals(1)
+        .reverse()
+        .offset(page * pageSize)
+        .limit(pageSize)
+        .toArray();
+    }, [page, pageSize]) ?? []
+  );
 }
 
 export async function updateTransaction(data: Transaction) {
@@ -204,4 +332,74 @@ export async function archiveTransaction(id: string) {
       console.error(error);
       return { ok: false };
     });
+}
+
+export async function unarchiveTransaction(id: string) {
+  return await db
+    .transaction(
+      "rw",
+      [db.transactions, db.accounts, db.monthly_summaries],
+      async () => {
+        const txn = await db.transactions.get(id);
+
+        if (!txn || txn.archive === 0) return;
+
+        await syncMonthlySummary(txn, "add");
+
+        const account = await db.accounts.get(txn.accountId);
+        if (account) {
+          const adjustAmount =
+            txn.kind === "expense" ? -txn.amount : txn.amount;
+
+          await db.accounts.update(txn.accountId, {
+            balance: account.balance + adjustAmount,
+            updatedAt: Date.now(),
+          });
+        }
+
+        await db.transactions.update(id, {
+          archive: 0,
+          updatedAt: Date.now(),
+          syncStatus: "pending",
+        });
+
+        return { ok: true };
+      },
+    )
+    .catch((error) => {
+      console.error("Error unarchiving transaction:", error);
+      return { ok: false };
+    });
+}
+
+export async function deleteTransfer(transferId: string) {
+  return await db.transaction(
+    "rw",
+    [db.accounts, db.transactions],
+    async () => {
+      const txns = await db.transactions
+        .where("transferId")
+        .equals(transferId)
+        .toArray();
+      if (txns.length === 0) return { ok: true };
+
+      for (const txn of txns) {
+        const account = await db.accounts.get(txn.accountId);
+        if (account) {
+          const reversalAmount =
+            txn.kind === "expense" ? txn.amount : -txn.amount;
+
+          await db.accounts.update(txn.accountId, {
+            balance: account.balance + reversalAmount,
+            updatedAt: Date.now(),
+            syncStatus: "pending",
+          });
+        }
+      }
+
+      await db.transactions.where("transferId").equals(transferId).delete();
+
+      return { ok: true };
+    },
+  );
 }

@@ -1,40 +1,36 @@
-import { Select } from "@/components/ui/select";
-import { t } from "i18next";
-import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
+import { SelectRow } from "@/components/ui/select-row";
+import { updateCurrency, useAppStore } from "@/stores/use-app-store";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
-const CURRENCIES = [
-  { code: "USD", label: "select.options.USD" },
-  { code: "EUR", label: "select.options.EUR" },
-  { code: "JPY", label: "select.options.JPY" },
-  { code: "GBP", label: "select.options.GBP" },
-  { code: "AUD", label: "select.options.AUD" },
-  { code: "CAD", label: "select.options.CAD" },
-  { code: "CHF", label: "select.options.CHF" },
-  { code: "CNY", label: "select.options.CNY" },
-  { code: "MXN", label: "select.options.MXN" },
-  { code: "NZD", label: "select.options.NZD" },
-];
+export function CurrencySelect() {
+  const { t } = useTranslation("currency");
+  const currency = useAppStore((state) => state.currency);
 
-type CurrencySelectProps<T extends FieldValues> = {
-  name: Path<T>;
-  register: UseFormRegister<T>;
-};
+  const CURRENCIES = [
+    { value: "USD", label: t("select.options.USD") },
+    { value: "EUR", label: t("select.options.EUR") },
+    { value: "JPY", label: t("select.options.JPY") },
+    { value: "GBP", label: t("select.options.GBP") },
+    { value: "AUD", label: t("select.options.AUD") },
+    { value: "CAD", label: t("select.options.CAD") },
+    { value: "CHF", label: t("select.options.CHF") },
+    { value: "CNY", label: t("select.options.CNY") },
+    { value: "MXN", label: t("select.options.MXN") },
+    { value: "NZD", label: t("select.options.NZD") },
+  ];
 
-export function CurrencySelect<T extends FieldValues>({
-  name,
-  register,
-}: CurrencySelectProps<T>) {
+  function handleChange(value: string) {
+    updateCurrency(value);
+    toast.success(t("success.add", { ns: "currency" }));
+  }
+
   return (
-    <Select
-      label={t("select.label", { ns: "currency" })}
-      name={name}
-      register={register}
-    >
-      {CURRENCIES.map(({ label, code }) => (
-        <option key={code} value={code}>
-          {t(label, { ns: "currency" })}
-        </option>
-      ))}
-    </Select>
+    <SelectRow
+      title={t("select.label")}
+      value={currency}
+      onChange={handleChange}
+      options={CURRENCIES}
+    />
   );
 }

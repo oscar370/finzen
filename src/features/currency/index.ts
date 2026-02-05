@@ -1,1 +1,1 @@
-export * from "./components/currency-form";
+export * from "./components/currency-select";

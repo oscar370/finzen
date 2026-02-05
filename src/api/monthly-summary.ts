@@ -42,8 +42,17 @@ export function useMonthlySummary(year: number, month: number) {
 
   return (
     useLiveQuery(async () => {
-      return await db.monthly_summaries.get(id);
-    }, [id]) ?? { income: 0, expense: 0, id }
+      const summary = await db.monthly_summaries.get(id);
+      return (
+        summary ?? {
+          id,
+          income: 0,
+          expense: 0,
+          year,
+          month,
+        }
+      );
+    }, [id]) ?? { id, income: 0, expense: 0, year, month }
   );
 }
 
@@ -66,4 +75,33 @@ export function useYearlySummary(year: number) {
       );
     }, [year]) ?? { income: 0, expense: 0, balance: 0, year }
   );
+}
+
+export async function rebuildMonthlySummary(year: number, month: number) {
+  const start = new Date(year, month - 1, 1).getTime();
+  const end = new Date(year, month, 0, 23, 59, 59).getTime();
+
+  const txs = await db.transactions
+    .where("date")
+    .between(start, end, true, true)
+    .filter((t) => t.archive === 0)
+    .toArray();
+
+  const totals = txs.reduce(
+    (acc, tx) => {
+      if (tx.kind === "income") acc.income += tx.amount;
+      else acc.expense += tx.amount;
+      return acc;
+    },
+    { income: 0, expense: 0 },
+  );
+
+  const id = `${year}-${String(month).padStart(2, "0")}`;
+  await db.monthly_summaries.put({
+    id,
+    year,
+    month,
+    income: Number(totals.income.toFixed(2)),
+    expense: Number(totals.expense.toFixed(2)),
+  });
 }

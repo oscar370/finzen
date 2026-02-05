@@ -1,27 +1,29 @@
-import "@/index.css";
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "./button";
 
-const meta: Meta<typeof Button> = {
+const meta = {
   component: Button,
-};
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
-  render: () => {
-    return (
-      <div className="flex flex-col gap-2">
-        <Button>Primary</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="flat">Flat</Button>
-        <Button variant="nav">Navigation</Button>
-        <Button variant="nav" data-active>
-          Navigation active
-        </Button>
-        <Button variant="group">Group</Button>
-      </div>
-    );
-  },
+export const ButtonStory: Story = {
+  render: () => (
+    <div className="flex flex-wrap gap-2">
+      <Button>Regular</Button>
+
+      <Button variant="flat">Flat</Button>
+
+      <Button variant="suggested">Suggested</Button>
+
+      <Button variant="destructive">Destructive</Button>
+
+      <Button disabled>Disabled</Button>
+
+      <Button variant="pill">Pill</Button>
+
+      <Button className="bg-[#3a944a]! text-white">Force background</Button>
+    </div>
+  ),
 };

@@ -1,0 +1,20 @@
+{
+  "carousel": {
+    "label": "Carousel",
+    "slide-label": "Slide",
+    "previous-label": "Previous slide",
+    "next-label": "Next slide",
+    "tab-label": "Go to slide"
+  },
+  "header-bar": {
+    "title": "Page title",
+    "back-button": "Go back"
+  },
+  "modal": {
+    "title": "Modal title",
+    "close-button": "Close"
+  },
+  "sidebar": {
+    "toggle-button": "Toggle sidebar"
+  }
+}

@@ -1,103 +1,70 @@
-import clsx from "clsx";
-import { useContext, useRef } from "react";
-import type {
-  FieldErrors,
-  FieldValues,
-  Path,
-  RegisterOptions,
-  UseFormRegister,
-} from "react-hook-form";
-import { Error } from "../error";
-import { GroupContext } from "../group";
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
+import { Check, ChevronDown } from "lucide-react";
 
-type SelectProps<T extends FieldValues> = {
-  children: React.ReactNode;
-  label: string;
-  name: Path<T>;
-  register: UseFormRegister<T>;
-  rules?: RegisterOptions<T, Path<T>>;
-  errors?: FieldErrors<T>;
-  variant?: keyof typeof variants;
+type Option<T extends string | number> = {
+  value: T;
+  label: string | React.ReactNode;
 };
 
-const baseStyles = {
-  container: clsx(
-    "flex h-12 w-full cursor-pointer items-center justify-between",
-    "bg-[color-mix(in_srgb,var(--background),var(--text)_15%)]",
-    "px-3.5",
-    "hover:bg-[color-mix(in_srgb,var(--background),var(--text)_10%)]",
-  ),
-  select: clsx(
-    "cursor-pointer",
-    "bg-[color-mix(in_srgb,var(--background),var(--text)_15%)]",
-    "px-2 py-1",
-    "hover:bg-[color-mix(in_srgb,var(--background),var(--text)_10%)]",
-    "focus:outline-0",
-  ),
+type SelectProps<T extends string | number> = {
+  title?: string;
+  value?: T;
+  options: Option<T>[];
+  placeholder?: string;
+  onChange?: (value: T) => void;
 };
 
-const variants = {
-  default: clsx(baseStyles.container, "rounded-xl shadow-sm"),
-  group: clsx(baseStyles.container, "first:rounded-t-xl last:rounded-b-xl"),
-  form: clsx(
-    "grid h-12 w-full cursor-pointer",
-    "grid-cols-3 items-center justify-center",
-    "rounded-lg bg-transparent px-3.5",
-    "shadow-none",
-    "hover:bg-[color-mix(in_srgb,var(--background),var(--text)_10%)]",
-  ),
-};
-
-const selectVariants = {
-  default: baseStyles.select,
-  group: baseStyles.select,
-  form: clsx(
-    "col-start-2 col-end-4 rounded-md",
-    "bg-[color-mix(in_srgb,var(--background),var(--text)_15%)]",
-    "px-2 py-1",
-  ),
-};
-
-export function Select<T extends FieldValues>({
-  children,
-  label,
-  name,
-  register,
-  rules,
-  errors,
-  variant = "default",
+export function Select<T extends string | number>({
+  title,
+  value,
+  options,
+  placeholder,
+  onChange,
 }: SelectProps<T>) {
-  const selectRef = useRef<HTMLSelectElement>(null);
-  const isGrouped = useContext(GroupContext);
-  const finalVariant = isGrouped ? "group" : variant;
-  const styles = variants[finalVariant];
-  const selectStyles = selectVariants[finalVariant];
-  const { ref, ...rest } = register(name, rules);
-
-  function handleOpenSelect() {
-    selectRef.current?.showPicker();
-  }
+  const selectedLabel = options.find((opt) => opt.value === value)?.label;
 
   return (
-    <label className={styles} onClick={handleOpenSelect}>
-      <span>
-        {label}
+    <Listbox value={value} onChange={onChange}>
+      <ListboxButton className="flex w-full cursor-pointer flex-col gap-0.5">
+        {title && <span className="text-start">{title}</span>}
 
-        {errors?.[name]?.message && (
-          <Error> {String(errors[name].message)} </Error>
-        )}
-      </span>
-      <select
-        className={selectStyles}
-        ref={(el) => {
-          ref(el);
-          selectRef.current = el;
-        }}
-        {...rest}
-        onClick={(e) => e.stopPropagation()}
+        <div className="overflow-hidden rounded-md transition-colors hover:bg-(--hover)">
+          <div className="h-full w-full border-none bg-(--card-bg) p-2 outline-none">
+            <span
+              className={`flex h-full items-center justify-start gap-1 ${
+                !selectedLabel && "text-(--dim-fg) opacity-80"
+              }`}
+            >
+              {!selectedLabel ? placeholder : selectedLabel}
+              <ChevronDown size={16} />
+            </span>
+          </div>
+        </div>
+      </ListboxButton>
+
+      <ListboxOptions
+        anchor="bottom start"
+        className="mt-1 rounded-xl bg-(--dialog-bg) p-1 shadow-md focus:outline-none"
       >
-        {children}
-      </select>
-    </label>
+        {options.map((option) => (
+          <ListboxOption
+            key={option.value}
+            value={option.value}
+            className="group flex cursor-pointer items-center rounded-lg px-3 py-2.5 data-focus:bg-(--hover)"
+          >
+            <span className="block truncate">{option.label}</span>
+
+            <span className="ml-1 hidden group-data-selected:block">
+              <Check size={16} />
+            </span>
+          </ListboxOption>
+        ))}
+      </ListboxOptions>
+    </Listbox>
   );
 }

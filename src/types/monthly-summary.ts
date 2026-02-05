@@ -1,5 +1,5 @@
 export type MonthlySummary = {
-  id: string; // "YYYY-MM" (ej: "2024-01")
+  id: string; // "YYYY-MM"
   year: number;
   month: number;
   income: number;

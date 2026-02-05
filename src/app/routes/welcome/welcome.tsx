@@ -1,33 +1,49 @@
 import { Carousel } from "@/components/ui/carousel";
-import { FirstAccount } from "@/features/accounts";
-import { CurrencyForm } from "@/features/currency";
-import { Toaster } from "react-hot-toast";
+import { ListBox } from "@/components/ui/list-box";
+import { AddAccountForm } from "@/features/accounts";
+import { CurrencySelect } from "@/features/currency";
+import { setFirstSession } from "@/stores/use-app-store";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export function Welcome() {
   return (
-    <>
-      <Carousel>
-        <Carousel.Previous className="absolute top-3/4 left-1/4 z-5 sm:top-1/2 sm:left-6" />
+    <div className="flex h-dvh w-full items-center justify-center">
+      <main className="h-full w-full px-1">
+        <Carousel slides={[<CurrencySlide />, <AddAccountSlide />]} />
+      </main>
+    </div>
+  );
+}
 
-        <Carousel.Content>
-          <main className="mx-auto flex h-dvh max-w-150 items-center justify-center px-1">
-            <CurrencyForm />
-          </main>
+function CurrencySlide() {
+  const { t } = useTranslation("currency");
 
-          <main className="mx-auto flex h-dvh max-w-150 items-center justify-center px-1">
-            <FirstAccount />
-          </main>
-        </Carousel.Content>
+  return (
+    <div className="mx-auto flex h-full max-w-150 flex-col items-center justify-center">
+      <h2 className="text-xl font-bold">{t("welcome.title")}</h2>
 
-        <Carousel.Next className="absolute top-3/4 right-1/4 z-5 sm:top-1/2 sm:right-6" />
-      </Carousel>
+      <ListBox>
+        <CurrencySelect />
+      </ListBox>
+    </div>
+  );
+}
 
-      <Toaster
-        toastOptions={{
-          className:
-            "bg-[color-mix(in_srgb,var(--background),var(--text)_15%)]!  text-(--text)!",
-        }}
-      />
-    </>
+function AddAccountSlide() {
+  const { t } = useTranslation("currency");
+  const navigate = useNavigate();
+
+  function handleSuccess() {
+    navigate("/home", { replace: true });
+    setFirstSession(false);
+  }
+
+  return (
+    <div className="mx-auto flex h-full max-w-150 flex-col items-center justify-center">
+      <h2 className="text-xl font-bold">{t("welcome.title")}</h2>
+
+      <AddAccountForm onSuccess={handleSuccess} />
+    </div>
   );
 }

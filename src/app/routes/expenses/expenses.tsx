@@ -1,30 +1,98 @@
+import { useCategories } from "@/api/categories";
 import { useExpenses } from "@/api/transactions";
-import { AddButton } from "@/components/ui/add-button";
-import { Group } from "@/components/ui/group";
-import { TitleBar } from "@/components/ui/title-bar";
-import { TransactionsList } from "@/features/transactions";
+import { ButtonRow } from "@/components/ui/button-row";
+import { EntryRow } from "@/components/ui/entry-row";
+import { EntrySearchRow } from "@/components/ui/entry-search-row";
+import { ExpanderRow } from "@/components/ui/expander-row";
+import { ListBox } from "@/components/ui/list-box";
+import { NavigationPage } from "@/components/ui/navigation-page";
+import { SelectRow } from "@/components/ui/select-row";
+import { TransactionItems } from "@/features/transactions";
 import dayjs from "dayjs";
-import { t } from "i18next";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export function Expenses() {
-  const firstDate = dayjs().startOf("month").valueOf();
-  const lastDate = dayjs().endOf("month").valueOf();
-  const expenses = useExpenses(firstDate, lastDate, 0, 20);
+  const firstDate = dayjs().startOf("month").format("YYYY-MM-DD");
+  const lastDate = dayjs().endOf("month").format("YYYY-MM-DD");
+  const [from, setFrom] = useState(firstDate);
+  const [to, setTo] = useState(lastDate);
+  const categories = useCategories();
+  const [categorySelected, setCategorySelected] = useState("");
+  const [limit, setLimit] = useState(20);
+  const [search, setSearch] = useState("");
+  const expenses = useExpenses(
+    dayjs(from).startOf("day").valueOf(),
+    dayjs(to).endOf("day").valueOf(),
+    limit,
+    search,
+    categorySelected,
+  );
   const navigate = useNavigate();
+  const { t } = useTranslation("transactions");
+
+  const categoryOptions = [
+    { value: "", label: t("filters.anyCategory") },
+    ...categories.map((category) => ({
+      value: category.id,
+      label: t(category.name, { ns: "categories" }),
+    })),
+  ];
+
+  function handleLoadMore() {
+    setLimit((prev) => prev + 20);
+  }
 
   return (
-    <>
-      <TitleBar title={t("sections.expenses", { ns: "common" })} />
+    <NavigationPage title={t("sections.expenses", { ns: "common" })}>
+      <ListBox>
+        <ExpanderRow title={t("filters.title")}>
+          <EntrySearchRow
+            placeholder={t("filters.search")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <EntryRow
+            title={t("filters.startDate")}
+            type="date"
+            disabledIcon
+            value={from}
+            onChange={(e) => setFrom(e.target.value)}
+          />
+          <EntryRow
+            title={t("filters.endDate")}
+            type="date"
+            disabledIcon
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+          />
+          <SelectRow
+            title={t("fields.category")}
+            value={categorySelected}
+            options={categoryOptions}
+            onChange={(value) => setCategorySelected(value)}
+          />
+        </ExpanderRow>
+      </ListBox>
 
-      <main className="mx-auto max-w-150 px-1 py-3">
-        <Group>
-          <AddButton onClick={() => navigate("/transactions/new")}>
-            {t("buttons.addTransaction", { ns: "transactions" })}
-          </AddButton>
-          <TransactionsList data={expenses} />
-        </Group>
-      </main>
-    </>
+      <ListBox>
+        <ButtonRow
+          role="link"
+          onClick={() =>
+            navigate("/transactions/new", { state: { kind: "expense" } })
+          }
+        >
+          <Plus />
+          <span> {t("buttons.addTransaction")} </span>
+        </ButtonRow>
+        <TransactionItems transactions={expenses} />
+
+        {expenses.length >= limit && (
+          <ButtonRow onClick={handleLoadMore}>Show more</ButtonRow>
+        )}
+      </ListBox>
+    </NavigationPage>
   );
 }

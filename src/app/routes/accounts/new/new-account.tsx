@@ -1,29 +1,24 @@
-import { TitleBar } from "@/components/ui/title-bar";
+import { NavigationPage } from "@/components/ui/navigation-page";
 import { AddAccountForm } from "@/features/accounts";
-import { motion } from "motion/react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export function NewAccount() {
   const navigate = useNavigate();
+  const { t } = useTranslation("accounts");
 
   function handleSuccess() {
-    navigate(-1);
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+      return;
+    }
+
+    navigate("..", { replace: true });
   }
 
   return (
-    <motion.div
-      initial={{ translateX: 300, opacity: 0 }}
-      animate={{ translateX: 0, opacity: 1 }}
-      exit={{ translateX: 300, opacity: 0 }}
-      transition={{ type: "tween", duration: 0.2 }}
-    >
-      <TitleBar title="New account" isSubPage />
-
-      <main className="mx-auto max-w-150 px-1 py-3">
-        <AddAccountForm onSuccess={handleSuccess}>
-          <h2> New </h2>
-        </AddAccountForm>
-      </main>
-    </motion.div>
+    <NavigationPage title={t("titles.new")} isSubPage>
+      <AddAccountForm onSuccess={handleSuccess} />
+    </NavigationPage>
   );
 }

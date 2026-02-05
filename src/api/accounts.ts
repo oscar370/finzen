@@ -3,6 +3,7 @@ import type { Account, DraftAccount } from "@/types/accounts";
 
 import type { Transaction } from "@/types/transactions";
 import { useLiveQuery } from "dexie-react-hooks";
+import { t } from "i18next";
 import { syncMonthlySummary } from "./monthly-summary";
 
 export async function addAccount(draftAccount: DraftAccount) {
@@ -26,7 +27,7 @@ export async function addAccount(draftAccount: DraftAccount) {
         if (draftAccount.initialBalance !== 0) {
           const initialTxn: Transaction = {
             id: crypto.randomUUID(),
-            name: "Initial Balance",
+            name: t("transactions.initialBalance", { ns: "transactions" }),
             amount: Math.abs(draftAccount.initialBalance),
             date: now,
             kind: draftAccount.initialBalance > 0 ? "income" : "expense",
@@ -77,6 +78,25 @@ export function useAccountById(id: string) {
   return useLiveQuery(async () => {
     return await db.accounts.where("id").equals(id).first();
   }, [id]);
+}
+
+export function useAccountsByBalance(limit?: number) {
+  return (
+    useLiveQuery(() =>
+      db.accounts
+        .where("archive")
+        .equals(0)
+        .sortBy("balance")
+        .then((a) => a.slice(0, limit)),
+    ) ?? []
+  );
+}
+
+export function useArchivedAccounts() {
+  return (
+    useLiveQuery(() => db.accounts.where("archive").equals(1).sortBy("name")) ??
+    []
+  );
 }
 
 export async function updateAccount(account: Account) {
@@ -147,6 +167,27 @@ export async function archiveAccount(id: string) {
     return { ok: true };
   } catch (error) {
     console.error("Error archiving account:", error);
+    return { ok: false };
+  }
+}
+
+export async function unarchiveAccount(id: string) {
+  const now = Date.now();
+
+  try {
+    const affectedRows = await db.accounts.update(id, {
+      archive: 0,
+      updatedAt: now,
+      syncStatus: "pending",
+    });
+
+    if (affectedRows === 0) {
+      throw new Error("Account not found");
+    }
+
+    return { ok: true };
+  } catch (error) {
+    console.error("Error unarchiving account:", error);
     return { ok: false };
   }
 }

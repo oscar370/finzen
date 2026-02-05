@@ -1,27 +1,21 @@
-import { AddButton } from "@/components/ui/add-button";
-import { Group } from "@/components/ui/group";
-import { TitleBar } from "@/components/ui/title-bar";
-import { AnnualOverview, MonthlyOverview } from "@/features/analytics";
-import { t } from "i18next";
-import { useNavigate } from "react-router-dom";
+import { NavigationPage } from "@/components/ui/navigation-page";
+import {
+  BalanceByAccount,
+  GeneralBalance,
+  LatestTransactions,
+  MainAccounts,
+} from "@/features/analytics";
+import { useTranslation } from "react-i18next";
 
 export function Home() {
-  const navigate = useNavigate();
+  const { t } = useTranslation("common");
 
   return (
-    <>
-      <TitleBar title="Home" />
-
-      <main className="mx-auto w-full max-w-150 space-y-3 px-1 py-3">
-        <Group>
-          <AddButton onClick={() => navigate("/transactions/new")}>
-            {t("buttons.addTransaction", { ns: "transactions" })}
-          </AddButton>
-        </Group>
-
-        <MonthlyOverview />
-        <AnnualOverview />
-      </main>
-    </>
+    <NavigationPage title={t("sections.home")}>
+      <GeneralBalance />
+      <BalanceByAccount />
+      <MainAccounts />
+      <LatestTransactions />
+    </NavigationPage>
   );
 }
