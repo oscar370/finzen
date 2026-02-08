@@ -1,16 +1,21 @@
-export type Budget = {
-  id: string;
-  year: number;
-  month: number;
-  categoryId: string;
-  categoryName: string;
-  categoryIcon: string;
-  amount: number;
-  kind: "expense" | "income";
-  updatedAt: number;
-  syncStatus: "pending" | "synced" | "conflict";
-  deleted: 0 | 1;
-};
+import z from "zod";
+import { ArchiveStatusSchema, SyncStatusSchema } from "./common";
+
+export const BudgetSchema = z.object({
+  id: z.string(),
+  year: z.number(),
+  month: z.number(),
+  categoryId: z.string(),
+  categoryName: z.string(),
+  categoryIcon: z.string(),
+  amount: z.number(),
+  kind: z.enum(["expense", "income"]),
+  updatedAt: z.number(),
+  syncStatus: SyncStatusSchema,
+  deleted: ArchiveStatusSchema,
+});
+
+export type Budget = z.infer<typeof BudgetSchema>;
 
 export type BudgetFrom = Omit<Budget, "year" | "month"> & {
   year: string;

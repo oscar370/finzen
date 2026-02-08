@@ -17,7 +17,7 @@ export function SwitchRow({
 }: SwitchRowProps) {
   return (
     <li>
-      <label className="flex min-h-13 cursor-pointer items-center px-4 transition-colors hover:bg-(--hover) focus:bg-(--hover)">
+      <label className="flex min-h-13 cursor-pointer items-center px-4 transition-colors hover:bg-(--hover) focus-visible:bg-(--hover)">
         {Icon && (
           <div
             aria-hidden="true"
@@ -43,7 +43,7 @@ export function SwitchRow({
               checked={checked}
               onChange={onChange}
             />
-            <div className="peer h-6 w-11 rounded-full bg-(--border) peer-checked:bg-(--accent) peer-focus:outline-none after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-zinc-700"></div>
+            <div className="peer h-6 w-11 rounded-full bg-(--border) peer-checked:bg-(--accent) peer-focus-visible:outline-3 peer-focus-visible:outline-(--border) after:absolute after:top-0.5 after:left-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-zinc-700"></div>
           </div>
         </div>
       </label>

@@ -5,6 +5,8 @@ import { persist } from "zustand/middleware";
 const initialState: AppStore = {
   currency: "USD",
   isFirstSession: true,
+  isAutoBackupEnabled: false,
+  backupInterval: 5,
 };
 
 export const useAppStore = create<AppStore>()(
@@ -17,4 +19,14 @@ export function updateCurrency(currency: string) {
 
 export function setFirstSession(state: boolean) {
   useAppStore.setState({ isFirstSession: state });
+}
+
+export function toggleAutoBackup() {
+  useAppStore.setState((state) => ({
+    isAutoBackupEnabled: !state.isAutoBackupEnabled,
+  }));
+}
+
+export function setBackupInterval(interval: number) {
+  useAppStore.setState({ backupInterval: interval });
 }

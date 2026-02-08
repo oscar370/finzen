@@ -105,3 +105,45 @@ export async function rebuildMonthlySummary(year: number, month: number) {
     expense: Number(totals.expense.toFixed(2)),
   });
 }
+
+export async function rebuildAllSummaries() {
+  const transactions = await db.transactions.toArray();
+
+  const summaryMap = new Map<
+    string,
+    { income: number; expense: number; year: number; month: number }
+  >();
+
+  for (const tx of transactions) {
+    if (tx.archive === 1) continue;
+
+    const date = new Date(tx.date);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const key = `${year}-${String(month).padStart(2, "0")}`;
+
+    if (!summaryMap.has(key)) {
+      summaryMap.set(key, { income: 0, expense: 0, year, month });
+    }
+
+    const current = summaryMap.get(key)!;
+    if (tx.kind === "income") {
+      current.income += tx.amount;
+    } else {
+      current.expense += tx.amount;
+    }
+  }
+
+  const summaries = Array.from(summaryMap.entries()).map(([id, data]) => ({
+    id,
+    year: data.year,
+    month: data.month,
+    income: Number(data.income.toFixed(2)),
+    expense: Number(data.expense.toFixed(2)),
+  }));
+
+  await db.transaction("rw", db.monthly_summaries, async () => {
+    await db.monthly_summaries.clear();
+    await db.monthly_summaries.bulkAdd(summaries);
+  });
+}

@@ -9,7 +9,7 @@ export function EntrySearchRow({
 }: EntrySearchRowProps) {
   return (
     <li>
-      <label className="flex min-h-13 flex-col justify-center px-4 transition-colors focus-within:bg-(--hover) hover:bg-(--hover) focus:bg-(--hover)">
+      <label className="flex min-h-13 flex-col justify-center px-4 transition-colors hover:bg-(--hover) has-[input:focus-visible]:bg-(--hover)">
         <div className="flex items-center gap-2">
           <Search size={16} />
 

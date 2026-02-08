@@ -1,19 +1,24 @@
-export type Transaction = {
-  id: string;
-  name: string;
-  amount: number;
-  date: number;
-  kind: "expense" | "income";
-  note: string;
-  accountId: string;
-  transferId?: string;
-  relatedAccountId?: string;
-  categoryId: string;
-  categoryIcon: string;
-  archive: 0 | 1;
-  updatedAt: number;
-  syncStatus: "pending" | "synced" | "conflict";
-};
+import z from "zod";
+import { ArchiveStatusSchema, SyncStatusSchema } from "./common";
+
+export const TransactionSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  amount: z.number(),
+  date: z.number(),
+  kind: z.enum(["expense", "income"]),
+  note: z.string(),
+  accountId: z.string(),
+  transferId: z.string().optional(),
+  relatedAccountId: z.string().optional(),
+  categoryId: z.string(),
+  categoryIcon: z.string(),
+  archive: ArchiveStatusSchema,
+  updatedAt: z.number(),
+  syncStatus: SyncStatusSchema,
+});
+
+export type Transaction = z.infer<typeof TransactionSchema>;
 
 export type DraftTransaction = Pick<
   Transaction,

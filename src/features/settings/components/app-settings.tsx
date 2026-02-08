@@ -11,20 +11,20 @@ export function AppSettings() {
   }
 
   return (
-    <ListBox title={t("appSettings.title")}>
+    <ListBox title={t("titles.app")}>
       <CurrencySelect />
 
       <SelectRow
-        title={t("appSettings.fields.language.label")}
+        title={t("fields.language.label")}
         value={i18n.language}
         options={[
           {
             value: "en",
-            label: t("appSettings.fields.language.options.english"),
+            label: t("fields.language.options.english"),
           },
           {
             value: "es",
-            label: t("appSettings.fields.language.options.spanish"),
+            label: t("fields.language.options.spanish"),
           },
         ]}
         onChange={handleChangeLanguage}

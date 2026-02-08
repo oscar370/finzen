@@ -1,5 +1,6 @@
 import { seedCategories } from "@/api/categories";
 import type { Account } from "@/types/accounts";
+import type { BackUpTable } from "@/types/backup";
 import type { Budget } from "@/types/budgets";
 import type { Category } from "@/types/categories";
 import type { MonthlySummary } from "@/types/monthly-summary";
@@ -12,6 +13,7 @@ export const db = new Dexie("finances") as Dexie & {
   monthly_summaries: EntityTable<MonthlySummary, "id">;
   categories: EntityTable<Category, "id">;
   budget: EntityTable<Budget, "id">;
+  backup: EntityTable<BackUpTable, "id">;
 };
 
 db.version(1).stores({
@@ -25,6 +27,8 @@ db.version(1).stores({
   categories: "id, name, archive, updatedAt",
 
   budget: "id, [year+month]",
+
+  backup: "id",
 });
 
 db.on("populate", () => {

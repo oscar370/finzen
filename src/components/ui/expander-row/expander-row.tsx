@@ -15,7 +15,7 @@ export function ExpanderRow({ title, subtitle, children }: ExpanderRowProps) {
   return (
     <Disclosure>
       <li>
-        <DisclosureButton className="group flex min-h-13 w-full cursor-pointer items-center px-4 transition-colors hover:bg-(--hover) focus:bg-(--hover)">
+        <DisclosureButton className="group flex min-h-13 w-full cursor-pointer items-center px-4 transition-colors hover:bg-(--hover) focus:outline-none focus-visible:bg-(--hover)">
           <div className="flex min-w-0 flex-1 flex-col text-left">
             <span className="leading-tight">{title}</span>
             {subtitle && (

@@ -8,9 +8,9 @@ export function ArchivedSettings() {
   const { t } = useTranslation("settings");
 
   return (
-    <ListBox title={t("archivedSettings.title")}>
+    <ListBox title={t("titles.archived")}>
       <ActionRow
-        title={t("archivedSettings.transactions")}
+        title={t("buttons.transactions")}
         as={Link}
         to="/transactions/archived"
         forceHover
@@ -19,7 +19,7 @@ export function ArchivedSettings() {
       </ActionRow>
 
       <ActionRow
-        title={t("archivedSettings.accounts")}
+        title={t("buttons.accounts")}
         as={Link}
         to="/accounts/archived"
         forceHover
@@ -28,7 +28,7 @@ export function ArchivedSettings() {
       </ActionRow>
 
       <ActionRow
-        title={t("archivedSettings.categories")}
+        title={t("buttons.categories")}
         as={Link}
         to="/categories/archived"
         forceHover

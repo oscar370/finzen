@@ -37,7 +37,7 @@ export function SelectRow<T extends string | number>({
   return (
     <li>
       <Listbox value={value} onChange={onChange}>
-        <ListboxButton className="flex min-h-13 w-full cursor-pointer items-center px-4 text-left transition-colors hover:bg-(--hover) focus:bg-(--hover)">
+        <ListboxButton className="flex min-h-13 w-full cursor-pointer items-center px-4 text-left transition-colors hover:bg-(--hover) focus:outline-none focus-visible:bg-(--hover)">
           {Icon && (
             <div
               aria-hidden="true"
