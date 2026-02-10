@@ -74,6 +74,9 @@ export function AddBudgetForm() {
               title={t("fields.year")}
               {...field}
               required
+              type="number"
+              min={1}
+              max={9999}
               pattern="[0-9]{4}"
             />
           )}
@@ -87,6 +90,9 @@ export function AddBudgetForm() {
               title={t("fields.month")}
               {...field}
               required
+              min={1}
+              max={12}
+              type="number"
               pattern="[0-9]{2}"
             />
           )}
