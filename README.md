@@ -15,7 +15,7 @@ Finzen is a local-first personal finance manager designed for privacy and data o
 
 - **Core:** React + TypeScript + Vite
 - **Styling:** TailwindCSS
-- **Database:** Dexie.js (IndexedDB)
+- **Storage & logic:** Dexie.js (IndexedDB) + React Hook Form + Zod
 - **PWA:** Vite PWA Plugin
 - **Routing:** React Router DOM
 
