@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
   const navigate = useNavigate();
+  const { t } = useTranslation("landing");
 
   return (
     <main>
@@ -13,10 +15,7 @@ export default function Landing() {
             <div>
               <h1 className="text-4xl font-bold text-shadow-xs">Finzen</h1>
               <p className="text-xl font-bold text-shadow-xs">
-                Track your expenses and income, plan for your future, and keep
-                your data with you
-                <br />
-                Free, open source, and works 100% offline
+                {t("descriptions.hero")}
               </p>
             </div>
 
@@ -26,7 +25,7 @@ export default function Landing() {
               role="link"
               onClick={() => navigate("/welcome")}
             >
-              Go to app
+              {t("buttons.goToApp")}
             </Button>
           </section>
         </div>
@@ -40,21 +39,15 @@ export default function Landing() {
           />
 
           <div className="flex-1 text-start">
-            <h2 className="text-lg font-bold">The control is yours</h2>
-            <p>
-              Your finances live exclusively on your device. Fast, private, and
-              available even offline
-            </p>
+            <h2 className="text-lg font-bold">{t("titles.features.first")}</h2>
+            <p>{t("descriptions.features.first")}</p>
           </div>
         </div>
 
         <div className="flex flex-col-reverse items-center gap-4 md:flex-row">
           <div className="flex-1 text-end">
-            <h2 className="text-lg font-bold">Responsive design</h2>
-            <p>
-              Designed to feel native on both your smartphone and your desktop.
-              A smooth, minimalist experience adapted to any screen
-            </p>
+            <h2 className="text-lg font-bold">{t("titles.features.second")}</h2>
+            <p>{t("descriptions.features.second")}</p>
           </div>
 
           <img
@@ -70,20 +63,14 @@ export default function Landing() {
           />
 
           <div className="flex-1 text-start">
-            <h2 className="text-lg font-bold">
-              Control your cash flow, not just your expenses
-            </h2>
-            <p>
-              Compare your plan vs. reality in real time. The “Budgets” section
-              allows you to see at a glance whether you are meeting your goals
-              or if that extra coffee got out of hand
-            </p>
+            <h2 className="text-lg font-bold">{t("titles.features.third")}</h2>
+            <p>{t("descriptions.features.third")}</p>
           </div>
         </div>
       </div>
 
       <footer className="flex items-center gap-2 bg-linear-to-t from-emerald-500 to-teal-500 px-4 py-3 text-white">
-        <p className="font-bold text-shadow-sm">Visit the repository on</p>
+        <p className="font-bold text-shadow-sm"> {t("buttons.visitRepo")} </p>
         <Button
           className="bg-(--accent)"
           variant="pill"

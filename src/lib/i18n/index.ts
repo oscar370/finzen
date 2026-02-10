@@ -8,6 +8,7 @@ import { enBudgets } from "./locales/en/budgets";
 import { enCategories } from "./locales/en/categories";
 import { enCommon } from "./locales/en/common";
 import { enCurrency } from "./locales/en/currency";
+import { enLanding } from "./locales/en/landing";
 import { enLanguages } from "./locales/en/languages";
 import { enSettings } from "./locales/en/settings";
 import { enTransactions } from "./locales/en/transactions";
@@ -18,6 +19,7 @@ import { esBudgets } from "./locales/es/budgets";
 import { esCategories } from "./locales/es/categories";
 import { esCommon } from "./locales/es/common";
 import { esCurrency } from "./locales/es/currency";
+import { esLanding } from "./locales/es/landing";
 import { esLanguages } from "./locales/es/languages";
 import { esSettings } from "./locales/es/settings";
 import { esTransactions } from "./locales/es/transactions";
@@ -31,6 +33,7 @@ const resources = {
     categories: enCategories,
     common: enCommon,
     currency: enCurrency,
+    landing: enLanding,
     languages: enLanguages,
     settings: enSettings,
     transactions: enTransactions,
@@ -43,6 +46,7 @@ const resources = {
     categories: esCategories,
     common: esCommon,
     currency: esCurrency,
+    landing: esLanding,
     languages: esLanguages,
     settings: esSettings,
     transactions: esTransactions,
