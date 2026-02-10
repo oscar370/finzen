@@ -50,6 +50,9 @@ export const enAccounts = {
     credit: "Credit",
     investment: "Investment",
   },
+  notes: {
+    new: "System generated initial balance",
+  },
   buttons: {
     add: "Add account",
     archive: "Archive account",

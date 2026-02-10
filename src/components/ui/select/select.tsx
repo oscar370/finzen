@@ -33,7 +33,7 @@ export function Select<T extends string | number>({
       <ListboxButton className="flex w-full cursor-pointer flex-col gap-0.5">
         {title && <span className="text-start">{title}</span>}
 
-        <div className="overflow-hidden rounded-md transition-colors hover:bg-(--hover)">
+        <div className="overflow-hidden rounded-md shadow-sm transition-colors hover:bg-(--hover)">
           <div className="h-full w-full border-none bg-(--card-bg) p-2 outline-none">
             <span
               className={`flex h-full items-center justify-start gap-1 ${

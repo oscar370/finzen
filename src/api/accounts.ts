@@ -31,7 +31,7 @@ export async function addAccount(draftAccount: DraftAccount) {
             amount: Math.abs(draftAccount.initialBalance),
             date: now,
             kind: draftAccount.initialBalance > 0 ? "income" : "expense",
-            note: "System generated initial balance",
+            note: t("notes.new", { ns: "accounts" }),
             accountId: accountId,
             categoryId: "system",
             categoryIcon: "bolt",

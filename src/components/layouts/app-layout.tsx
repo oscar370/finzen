@@ -1,3 +1,4 @@
+import { initializeBackup } from "@/api/backup";
 import { useAppStore } from "@/stores/use-app-store";
 import { t } from "i18next";
 import {
@@ -10,7 +11,7 @@ import {
   TrendingUp,
   Wallet,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { ActionRow } from "../ui/action-row";
 import { ListBox } from "../ui/list-box";
@@ -31,6 +32,13 @@ const SIDEBAR_BUTTONS = [
 export function AppLayout() {
   const isFirstSession = useAppStore((state) => state.isFirstSession);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const backupInterval = useAppStore((state) => state.backupInterval);
+  const isAutoBackupEnabled = useAppStore((state) => state.isAutoBackupEnabled);
+
+  useEffect(() => {
+    if (!isAutoBackupEnabled) return;
+    initializeBackup();
+  }, [backupInterval, isAutoBackupEnabled]);
 
   if (isFirstSession) {
     return <Navigate to={"/welcome"} replace />;

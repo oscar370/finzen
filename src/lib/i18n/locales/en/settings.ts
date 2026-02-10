@@ -24,7 +24,11 @@ export const enSettings = {
     manualBackup: "Download backup",
     forceSync: "Force sync",
     lastBackup: "Last backup",
-    backupFolder: "Change backup folder",
+    backupFolder: "Change backup path",
+    autoBackupFallback: {
+      title: "Your system does not support automatic backups",
+      subtitle: "Click here to learn more",
+    },
   },
   restoreModal: {
     title: "Restore backup",
@@ -36,12 +40,12 @@ export const enSettings = {
     restore: "Failed to restore backup",
     manualBackup: "Failed to download or generate backup",
     forceSync: "Failed to force synchronization",
-    backupFolder: "Failed to change backup folder",
+    backupFolder: "Failed to change backup path",
   },
   success: {
     restore: "The restoration of the backup was successfully completed",
     manualBackup: "The backup download was successfully completed",
     forceSync: "Forced synchronization successfully completed",
-    backupFolder: "The backup folder was successfully changed",
+    backupFolder: "The backup path was successfully changed",
   },
 };

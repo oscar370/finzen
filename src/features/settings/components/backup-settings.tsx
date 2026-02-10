@@ -13,13 +13,21 @@ import { ExpanderRow } from "@/components/ui/expander-row";
 import { ListBox } from "@/components/ui/list-box";
 import { modal } from "@/components/ui/modal-manager";
 import { SwitchRow } from "@/components/ui/switch-row";
+import { wikiBackupsRoutes } from "@/data/wiki-backups-routes";
 import {
   setBackupInterval,
   toggleAutoBackup,
   useAppStore,
 } from "@/stores/use-app-store";
 import dayjs from "dayjs";
-import { ArchiveRestore, Download, Folder, FolderSync } from "lucide-react";
+import {
+  ArchiveRestore,
+  ChevronRight,
+  Download,
+  Folder,
+  FolderSync,
+  Info,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -27,7 +35,7 @@ import { useTranslation } from "react-i18next";
 export function BackupSettings() {
   const isAutoBackupEnabled = useAppStore((state) => state.isAutoBackupEnabled);
   const backupInterval = useAppStore((state) => state.backupInterval);
-  const { t } = useTranslation("settings");
+  const { t, i18n } = useTranslation("settings");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [lastBackup, setLastBackup] = useState<string | undefined>("");
 
@@ -108,6 +116,13 @@ export function BackupSettings() {
       return;
     }
 
+    const result2 = await executeForceSync();
+
+    if (!result2?.ok) {
+      toast.error(t("errors.forceSync"));
+      return;
+    }
+
     toast.success(t("success.backupFolder"));
   }
 
@@ -117,42 +132,60 @@ export function BackupSettings() {
     );
   }, []);
 
+  function handleOpenWiki() {
+    window.open(
+      wikiBackupsRoutes[i18n.language as keyof typeof wikiBackupsRoutes],
+    );
+  }
+
   return (
     <ListBox title={t("titles.backup")}>
-      <ExpanderRow title={t("fields.autoBackup")}>
-        <SwitchRow
-          title={t("fields.enableBackup")}
-          checked={isAutoBackupEnabled}
-          onChange={toggleAutoBackup}
-        />
+      {isFileSystemApiSupported() ? (
+        <ExpanderRow title={t("fields.autoBackup")}>
+          <SwitchRow
+            title={t("fields.enableBackup")}
+            checked={isAutoBackupEnabled}
+            onChange={toggleAutoBackup}
+          />
 
-        {isAutoBackupEnabled && (
-          <>
-            <EntryRow
-              title={t("fields.backupInterval")}
-              value={backupInterval}
-              disabledIcon
-              type="number"
-              onChange={handleIntervalChange}
-            />
-            {isFileSystemApiSupported() && (
-              <>
-                <ActionRow title={t("buttons.lastBackup")}>
-                  <span className="text-(--dim-fg)">{lastBackup}</span>
-                </ActionRow>
-                <ButtonRow onClick={handleChangeBackupFolder}>
-                  <Folder />
-                  <span>{t("buttons.backupFolder")}</span>
-                </ButtonRow>
-              </>
-            )}
-            <ButtonRow onClick={handleForceSync}>
-              <FolderSync />
-              <span>{t("buttons.forceSync")}</span>
-            </ButtonRow>
-          </>
-        )}
-      </ExpanderRow>
+          {isAutoBackupEnabled && (
+            <>
+              <EntryRow
+                title={t("fields.backupInterval")}
+                value={backupInterval}
+                disabledIcon
+                type="number"
+                onChange={handleIntervalChange}
+              />
+
+              <ActionRow title={t("buttons.lastBackup")}>
+                <span className="text-(--dim-fg)">{lastBackup}</span>
+              </ActionRow>
+              <ButtonRow onClick={handleChangeBackupFolder}>
+                <Folder />
+                <span>{t("buttons.backupFolder")}</span>
+              </ButtonRow>
+
+              <ButtonRow onClick={handleForceSync}>
+                <FolderSync />
+                <span>{t("buttons.forceSync")}</span>
+              </ButtonRow>
+            </>
+          )}
+        </ExpanderRow>
+      ) : (
+        <ActionRow
+          icon={<Info />}
+          title={t("buttons.autoBackupFallback.title")}
+          subtitle={t("buttons.autoBackupFallback.subtitle")}
+          accent="text-(--text)"
+          as="button"
+          role="link"
+          onClick={handleOpenWiki}
+        >
+          <ChevronRight />
+        </ActionRow>
+      )}
 
       <ButtonRow onClick={handleSaveBackup}>
         <Download />

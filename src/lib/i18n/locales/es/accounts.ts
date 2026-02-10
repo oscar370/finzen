@@ -50,6 +50,9 @@ export const esAccounts = {
     credit: "Crédito",
     investment: "Inversión",
   },
+  notes: {
+    new: "Saldo inicial generado por el sistema",
+  },
   buttons: {
     add: "Agregar cuenta",
     archive: "Archivar cuenta",

@@ -5,7 +5,7 @@ type EntrySearchProps = InputHTMLAttributes<HTMLInputElement>;
 
 export function EntrySearch({ type = "search", ...props }: EntrySearchProps) {
   return (
-    <div className="w-full overflow-hidden rounded-md transition-colors hover:bg-(--hover) has-[input:focus-visible]:bg-(--hover)">
+    <div className="w-full overflow-hidden rounded-md shadow-sm transition-colors hover:bg-(--hover) has-[input:focus-visible]:bg-(--hover)">
       <div className="flex h-full w-full items-center gap-2 bg-(--card-bg) p-2">
         <Search size={16} />
 

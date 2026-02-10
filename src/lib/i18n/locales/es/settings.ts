@@ -24,7 +24,11 @@ export const esSettings = {
     manualBackup: "Descargar respaldo",
     forceSync: "Forzar sincronización",
     lastBackup: "Último respaldo",
-    backupFolder: "Cambiar carpeta de respaldo",
+    backupFolder: "Cambiar ruta de respaldo",
+    autoBackupFallback: {
+      title: "Tu sistema no soporta respaldos automáticos",
+      subtitle: "Haz clic aquí para conocer más",
+    },
   },
   restoreModal: {
     title: "Restaurar respaldo",
@@ -36,12 +40,12 @@ export const esSettings = {
     restore: "No se pudo restaurar el respaldo",
     manualBackup: "No se pudo descargar o generar el respaldo",
     forceSync: "No se pudo forzar la sincronización",
-    backupFolder: "No se pudo cambiar la carpeta de respaldo",
+    backupFolder: "No se pudo cambiar la ruta de respaldo",
   },
   success: {
     restore: "La restauración del respaldo se completó correctamente",
     manualBackup: "La descarga del respaldo se completó correctamente",
     forceSync: "La sincronización forzada se completó correctamente",
-    backupFolder: "La carpeta de respaldo se cambió correctamente",
+    backupFolder: "La ruta de respaldo se cambió correctamente",
   },
 };

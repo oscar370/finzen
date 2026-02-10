@@ -21,7 +21,7 @@ export default function Landing() {
             </div>
 
             <Button
-              className="bg-(--bg)"
+              className="bg-[#222226]"
               variant="pill"
               role="link"
               onClick={() => navigate("/welcome")}
@@ -82,15 +82,13 @@ export default function Landing() {
         </div>
       </div>
 
-      <footer className="flex items-center gap-2 bg-linear-to-t from-emerald-500 to-teal-500 px-4 py-3">
+      <footer className="flex items-center gap-2 bg-linear-to-t from-emerald-500 to-teal-500 px-4 py-3 text-white">
         <p className="font-bold text-shadow-sm">Visit the repository on</p>
         <Button
           className="bg-(--accent)"
           variant="pill"
           role="link"
-          onClick={() =>
-            window.location.assign("https://github.com/oscar370/finzen")
-          }
+          onClick={() => window.open("https://github.com/oscar370/finzen")}
         >
           <span className="size-6">
             <svg
