@@ -2,7 +2,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { AddCategoryForm } from "@/features/categories";
 import { useTranslation } from "react-i18next";
 
-export function NewCategory() {
+export default function NewCategory() {
   const { t } = useTranslation("categories");
 
   return (

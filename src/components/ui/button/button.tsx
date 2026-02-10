@@ -35,7 +35,7 @@ export function Button({
 
   const wrapperClasses = twMerge(
     clsx(
-      "overflow-hidden rounded-lg transition-colors hover:bg-(--hover) has-[button:focus-visible]:bg-(--hover)",
+      "w-fit overflow-hidden rounded-lg transition-colors hover:bg-(--hover) has-[button:focus-visible]:bg-(--hover)",
       (variant === "pill" || variant === "pillSuggested") && "rounded-full",
     ),
   );

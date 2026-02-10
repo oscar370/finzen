@@ -4,7 +4,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { AccountItems } from "@/features/accounts";
 import { useTranslation } from "react-i18next";
 
-export function ArchivedAccounts() {
+export default function ArchivedAccounts() {
   const { t } = useTranslation("accounts");
   const accounts = useArchivedAccounts();
 

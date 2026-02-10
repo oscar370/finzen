@@ -10,22 +10,38 @@ import { enCommon } from "./locales/en/common";
 import { enCurrency } from "./locales/en/currency";
 import { enSettings } from "./locales/en/settings";
 import { enTransactions } from "./locales/en/transactions";
+import { esAccounts } from "./locales/es/accounts";
+import { esAnalytics } from "./locales/es/analytics";
 import esArias from "./locales/es/arias.json";
+import { esBudgets } from "./locales/es/budgets";
+import { esCategories } from "./locales/es/categories";
+import { esCommon } from "./locales/es/common";
+import { esCurrency } from "./locales/es/currency";
+import { esSettings } from "./locales/es/settings";
+import { esTransactions } from "./locales/es/transactions";
 
 const resources = {
   en: {
-    arias: enArias,
-    common: enCommon,
     accounts: enAccounts,
-    currency: enCurrency,
     analytics: enAnalytics,
-    transactions: enTransactions,
-    categories: enCategories,
-    settings: enSettings,
+    arias: enArias,
     budgets: enBudgets,
+    categories: enCategories,
+    common: enCommon,
+    currency: enCurrency,
+    settings: enSettings,
+    transactions: enTransactions,
   },
   es: {
+    accounts: esAccounts,
+    analytics: esAnalytics,
     arias: esArias,
+    budgets: esBudgets,
+    categories: esCategories,
+    common: esCommon,
+    currency: esCurrency,
+    settings: esSettings,
+    transactions: esTransactions,
   },
 };
 

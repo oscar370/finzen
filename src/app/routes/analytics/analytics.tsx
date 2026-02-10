@@ -6,7 +6,7 @@ import {
 } from "@/features/analytics";
 import { useTranslation } from "react-i18next";
 
-export function Analytics() {
+export default function Analytics() {
   const { t } = useTranslation("common");
 
   return (

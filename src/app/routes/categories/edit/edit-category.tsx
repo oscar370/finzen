@@ -4,7 +4,7 @@ import { EditCategoryForm } from "@/features/categories";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function EditCategory() {
+export default function EditCategory() {
   const { id } = useParams();
   const category = useCategoryById(id!);
   const { t } = useTranslation("categories");

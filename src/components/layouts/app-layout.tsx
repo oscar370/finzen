@@ -10,8 +10,8 @@ import {
   TrendingUp,
   Wallet,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import { ActionRow } from "../ui/action-row";
 import { ListBox } from "../ui/list-box";
 import { Sidebar } from "../ui/sidebar";
@@ -30,12 +30,11 @@ const SIDEBAR_BUTTONS = [
 
 export function AppLayout() {
   const isFirstSession = useAppStore((state) => state.isFirstSession);
-  const navigate = useNavigate();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    if (isFirstSession) navigate("/welcome");
-  }, [isFirstSession, navigate]);
+  if (isFirstSession) {
+    return <Navigate to={"/welcome"} replace />;
+  }
 
   function handleToggleSidebar() {
     setSidebarOpen((prev) => !prev);

@@ -12,7 +12,4 @@ export const enCommon = {
     budgets: "Budgets",
     analytics: "Analytics",
   },
-  errors: {
-    required: "Required",
-  },
 };

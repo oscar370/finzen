@@ -81,7 +81,7 @@ export function AddAccountForm({ onSuccess }: AddAccountFormProps) {
               intlConfig={{ locale, currency }}
               allowNegativeValue={false}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange(0)
+                value ? onChange(Number(value)) : onChange("")
               }
             />
           )}

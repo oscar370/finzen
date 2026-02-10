@@ -43,7 +43,7 @@ export function BalanceByAccount() {
         property
       />
       <ActionRow
-        title={t("types.debit", { ns: "accounts" })}
+        title={t("types.credit", { ns: "accounts" })}
         subtitle={formatCurrency(currency, creditBalance)}
         property
       />

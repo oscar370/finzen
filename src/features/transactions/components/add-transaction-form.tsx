@@ -115,11 +115,7 @@ export function AddTransactionForm() {
             allowNegativeValue={false}
             intlConfig={{ locale, currency }}
             onValueChange={(value) =>
-              value
-                ? +value > 1
-                  ? onChange(Number(value))
-                  : onChange(1)
-                : onChange(1)
+              value ? onChange(Number(value)) : onChange("")
             }
           />
         )}

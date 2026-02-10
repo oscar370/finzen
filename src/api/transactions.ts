@@ -206,10 +206,12 @@ export function useTransactionsByAccount(
       return await db.transactions
         .where("accountId")
         .equals(id)
-        .reverse()
         .offset(page * pageSize)
-        .limit(pageSize)
-        .toArray();
+        .sortBy("date")
+        .then((v) => {
+          const sorts = v.reverse();
+          return sorts.slice(0, pageSize);
+        });
     }, [id, page, pageSize]) ?? []
   );
 }

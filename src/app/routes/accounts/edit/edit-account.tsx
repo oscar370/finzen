@@ -4,7 +4,7 @@ import { EditAccountForm } from "@/features/accounts";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function EditAccount() {
+export default function EditAccount() {
   const { id } = useParams();
   const { t } = useTranslation("account");
   const account = useAccountById(id!);

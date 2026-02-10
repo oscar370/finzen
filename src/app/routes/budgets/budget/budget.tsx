@@ -4,7 +4,7 @@ import { BudgetDetails } from "@/features/budgets";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function Budget() {
+export default function Budget() {
   const { id } = useParams();
   const budget = useBudget(id!);
   const { t } = useTranslation();

@@ -9,7 +9,12 @@ export function useCategoryDistribution(from: number, to: number) {
       const transactions = await db.transactions
         .where("date")
         .between(from, to, true, true)
-        .filter((t) => t.kind === "expense" && t.archive === 0)
+        .filter(
+          (t) =>
+            t.kind === "expense" &&
+            t.archive === 0 &&
+            t.categoryId !== "system",
+        )
         .toArray();
 
       const distribution = transactions.reduce(
@@ -122,7 +127,7 @@ export function useBudgetTotalComparison(
         db.transactions
           .where("[archive+date]")
           .between([0, start], [0, end])
-          .filter((t) => t.kind === kind)
+          .filter((t) => t.kind === kind && t.categoryId !== "system")
           .toArray(),
       ]);
 

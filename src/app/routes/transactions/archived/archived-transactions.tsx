@@ -4,7 +4,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { TransactionItems } from "@/features/transactions";
 import { useTranslation } from "react-i18next";
 
-export function ArchivedTransactions() {
+export default function ArchivedTransactions() {
   const { t } = useTranslation("transactions");
   const transactions = useArchivedTransactions(0, 20);
 

@@ -4,4 +4,5 @@ export type MonthlySummary = {
   month: number;
   income: number;
   expense: number;
+  adjustments: number;
 };

@@ -3,7 +3,7 @@ import { AddAccountForm } from "@/features/accounts";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-export function NewAccount() {
+export default function NewAccount() {
   const navigate = useNavigate();
   const { t } = useTranslation("accounts");
 

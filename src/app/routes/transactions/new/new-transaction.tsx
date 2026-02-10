@@ -2,7 +2,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { AddTransactionForm } from "@/features/transactions";
 import { useTranslation } from "react-i18next";
 
-export function NewTransaction() {
+export default function NewTransaction() {
   const { t } = useTranslation("transactions");
 
   return (

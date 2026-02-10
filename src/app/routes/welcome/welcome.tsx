@@ -2,11 +2,17 @@ import { Carousel } from "@/components/ui/carousel";
 import { ListBox } from "@/components/ui/list-box";
 import { AddAccountForm } from "@/features/accounts";
 import { CurrencySelect } from "@/features/currency";
-import { setFirstSession } from "@/stores/use-app-store";
+import { setFirstSession, useAppStore } from "@/stores/use-app-store";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
-export function Welcome() {
+export default function Welcome() {
+  const isFirstSession = useAppStore((state) => state.isFirstSession);
+
+  if (!isFirstSession) {
+    return <Navigate to={"/home"} replace />;
+  }
+
   return (
     <div className="flex h-dvh w-full items-center justify-center">
       <main className="h-full w-full px-1">

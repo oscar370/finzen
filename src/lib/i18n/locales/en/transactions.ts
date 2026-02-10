@@ -20,6 +20,7 @@ export const enTransactions = {
   titles: {
     newTransaction: "New transaction",
     archived: "Archived transactions",
+    list: "Transactions list",
   },
   messages: {
     empty: "There are no transactions to display",

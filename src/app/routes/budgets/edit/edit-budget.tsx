@@ -4,7 +4,7 @@ import { EditBudgetForm } from "@/features/budgets";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function EditBudget() {
+export default function EditBudget() {
   const { t } = useTranslation("budgets");
   const { id } = useParams();
   const budget = useBudget(id!);

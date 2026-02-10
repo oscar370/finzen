@@ -9,7 +9,7 @@ export const enSettings = {
       label: "Language",
       options: {
         english: "English",
-        spanish: "Spanish",
+        spanish: "Español",
       },
     },
     autoBackup: "Auto backup",

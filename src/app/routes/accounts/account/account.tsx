@@ -7,7 +7,7 @@ import { TransactionItems } from "@/features/transactions";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function Account() {
+export default function Account() {
   const { id } = useParams();
   const account = useAccountById(id!);
   const transactions = useTransactionsByAccount(id!, 0, 20);
@@ -18,7 +18,7 @@ export function Account() {
       <NavigationPage title={account.name} isSubPage>
         <AccountDetails account={account} />
 
-        <ListBox title={t("list.title", { ns: "transactions" })}>
+        <ListBox title={t("titles.list", { ns: "transactions" })}>
           <TransactionItems transactions={transactions} />
         </ListBox>
       </NavigationPage>

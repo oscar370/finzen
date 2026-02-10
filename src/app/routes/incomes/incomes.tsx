@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-export function Incomes() {
+export default function Incomes() {
   const firstDate = dayjs().startOf("month").format("YYYY-MM-DD");
   const lastDate = dayjs().endOf("month").format("YYYY-MM-DD");
   const [from, setFrom] = useState(firstDate);

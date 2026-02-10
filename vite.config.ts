@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
@@ -15,7 +16,42 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    VitePWA({
+      registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+        type: "module",
+      },
+      includeAssets: ["icons/favicon.ico", "icons/apple-touch-icon.png"],
+      manifest: {
+        short_name: "Finzen",
+        name: "Finzen",
+        description: "Personal finance manager",
+        icons: [
+          {
+            src: "icons/icon-192.png",
+            type: "image/png",
+            sizes: "192x192",
+          },
+          {
+            src: "icons/icon-512-maskable.png",
+            type: "image/png",
+            sizes: "512x512",
+            purpose: "any maskable",
+          },
+          {
+            src: "icons/icon-512.png",
+            type: "image/png",
+            sizes: "512x512",
+          },
+        ],
+        theme_color: "#00c951",
+      },
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -4,7 +4,7 @@ import { CategoryDetails } from "@/features/categories";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-export function Category() {
+export default function Category() {
   const { id } = useParams();
   const { t } = useTranslation("categories");
   const category = useCategoryById(id!);

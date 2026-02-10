@@ -4,7 +4,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { CategoryItems } from "@/features/categories";
 import { useTranslation } from "react-i18next";
 
-export function ArchivedCategories() {
+export default function ArchivedCategories() {
   const categories = useArchivedCategories();
   const { t } = useTranslation("categories");
 

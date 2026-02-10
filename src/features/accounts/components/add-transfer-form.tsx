@@ -4,6 +4,7 @@ import { ButtonRow } from "@/components/ui/button-row";
 import { CurrencyEntry } from "@/components/ui/currency-entry";
 import { Entry } from "@/components/ui/entry";
 import { ListBox } from "@/components/ui/list-box";
+import { modal } from "@/components/ui/modal-manager";
 import { Select } from "@/components/ui/select";
 import { useAppStore } from "@/stores/use-app-store";
 import type { Account } from "@/types/accounts";
@@ -50,6 +51,7 @@ export function AddTransferForm({ account, onSuccess }: TransferFormProps) {
       return;
     }
 
+    modal.close();
     toast.success(t("success.add"));
     onSuccess();
   }
@@ -90,11 +92,7 @@ export function AddTransferForm({ account, onSuccess }: TransferFormProps) {
               intlConfig={{ locale, currency }}
               allowNegativeValue={false}
               onValueChange={(value) =>
-                value
-                  ? +value > 1
-                    ? onChange(Number(value))
-                    : onChange(1)
-                  : onChange(1)
+                value ? onChange(Number(value)) : onChange("")
               }
             />
           )}

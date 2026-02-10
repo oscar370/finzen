@@ -1,21 +1,24 @@
 export const esCurrency = {
   welcome: {
-    title: "Selecciona tu divisa",
-    button: "Guardar divisa",
+    title: "Selecciona tu moneda",
+    button: "Guardar moneda",
   },
   select: {
-    label: "Divisas",
+    label: "Monedas",
     options: {
-      USD: "Dólar Estadounidense",
+      USD: "Dólar estadounidense",
       EUR: "Euro",
-      JPY: "Yen Japonés",
-      GBP: "Libra Esterlina Británica",
+      JPY: "Yen japonés",
+      GBP: "Libra esterlina británica",
       AUD: "Dólar australiano",
       CAD: "Dólar canadiense",
-      CHF: "Franco Suizo",
-      CNY: "Yuan Chino",
-      MXN: "Peso Mexicano",
-      NZD: "Dólar Neozelandés",
+      CHF: "Franco suizo",
+      CNY: "Yuan chino",
+      MXN: "Peso mexicano",
+      NZD: "Dólar neozelandés",
     },
+  },
+  success: {
+    add: "Moneda agregada correctamente",
   },
 };

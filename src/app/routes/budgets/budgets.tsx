@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-export function Budgets() {
+export default function Budgets() {
   const { t } = useTranslation("budgets");
   const navigate = useNavigate();
   const currentYear = dayjs().year();
@@ -96,33 +96,41 @@ export function Budgets() {
         <BudgetsItems budgets={budgets} />
       </ListBox>
 
-      <section className="mt-4">
-        <h2 className="mb-1 font-bold">
-          {t("titles.budgetBalanceComparison", { ns: "analytics" })}
-        </h2>
+      <ListBox>
+        <ExpanderRow title={t("sections.analytics", { ns: "common" })}>
+          <li className="px-4 py-1">
+            <p className="mb-1 font-bold">
+              {t("titles.budgetBalanceComparison", { ns: "analytics" })}
+            </p>
 
-        <BudgetBalanceComparison year={+year} month={+month} />
-      </section>
+            <BudgetBalanceComparison year={+year} month={+month} />
+          </li>
 
-      <section className="mt-4">
-        <h2 className="mb-1 font-bold">
-          {t("titles.comparisonIncome", { ns: "analytics" })}
-        </h2>
+          <li className="px-4 py-1">
+            <p className="mb-1 font-bold">
+              {t("titles.comparisonIncome", { ns: "analytics" })}
+            </p>
 
-        <BudgetTotalComparisonChart year={+year} month={+month} kind="income" />
-      </section>
+            <BudgetTotalComparisonChart
+              year={+year}
+              month={+month}
+              kind="income"
+            />
+          </li>
 
-      <section className="mt-4">
-        <h2 className="mb-1 font-bold">
-          {t("titles.comparisonExpense", { ns: "analytics" })}
-        </h2>
+          <li className="px-4 py-1">
+            <p className="mb-1 font-bold">
+              {t("titles.comparisonExpense", { ns: "analytics" })}
+            </p>
 
-        <BudgetTotalComparisonChart
-          year={+year}
-          month={+month}
-          kind="expense"
-        />
-      </section>
+            <BudgetTotalComparisonChart
+              year={+year}
+              month={+month}
+              kind="expense"
+            />
+          </li>
+        </ExpanderRow>
+      </ListBox>
     </NavigationPage>
   );
 }

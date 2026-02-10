@@ -6,7 +6,7 @@ import {
 } from "@/features/settings";
 import { useTranslation } from "react-i18next";
 
-export function Settings() {
+export default function Settings() {
   const { t } = useTranslation("common");
 
   return (

@@ -3,7 +3,7 @@ import { NavigationPage } from "@/components/ui/navigation-page";
 import { EditTransactionForm } from "@/features/transactions";
 import { useParams } from "react-router-dom";
 
-export function EditTransaction() {
+export default function EditTransaction() {
   const { id } = useParams();
   const transaction = useTransactionById(id!);
 

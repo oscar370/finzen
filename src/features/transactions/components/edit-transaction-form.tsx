@@ -104,7 +104,7 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
               allowNegativeValue={false}
               intlConfig={{ locale, currency }}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange(0)
+                value ? onChange(Number(value)) : onChange("")
               }
             />
           )}

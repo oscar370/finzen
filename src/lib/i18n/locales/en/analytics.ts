@@ -13,7 +13,7 @@ export const enAnalytics = {
     lastTransactions: "Last five transactions",
     monthlyExpenseDistribution: "Monthly expense distribution",
     comparisonIncomesExpenses: "Monthly comparison of income and expenses",
-    budgetBalanceComparison: "Balance comparison",
+    budgetBalanceComparison: "Cash flow comparison",
     comparisonIncome: "Comparison of income",
     comparisonExpense: "Comparison of expense",
   },

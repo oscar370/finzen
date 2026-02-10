@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-export function Categories() {
+export default function Categories() {
   const categories = useCategories();
   const { t } = useTranslation("common");
   const navigate = useNavigate();
