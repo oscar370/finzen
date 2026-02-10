@@ -119,7 +119,11 @@ export function useAvailableCategories(
   return (
     useLiveQuery(async () => {
       const [allCategories, currentBudgets] = await Promise.all([
-        db.categories.where("archive").equals(0).toArray(),
+        db.categories
+          .where("archive")
+          .equals(0)
+          .filter((c) => c.id !== "system")
+          .toArray(),
         db.budget
           .where("[year+month]")
           .equals([year, month])
