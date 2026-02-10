@@ -1,73 +1,66 @@
-# React + TypeScript + Vite
+# Finzen
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Finzen is a local-first personal finance manager designed for privacy and data ownership. The application runs entirely in the browser, ensuring that sensitive financial information remains on the user's device.
 
-Currently, two official plugins are available:
+**Live Application:** [https://finzenapp.net/](https://finzenapp.net/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
 
-## React Compiler
+- **Local-First Architecture:** Data is stored in IndexedDB; no external servers or cloud providers are involved.
+- **File System Access API:** Optional automated backup synchronization to a local JSON file (supported in Chromium browsers).
+- **PWA Support:** Installable on desktop and mobile for offline use.
+- **Privacy-Centric:** No tracking, no analytics, and no third-party data collection.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Core:** React + TypeScript + Vite
+- **Styling:** TailwindCSS
+- **Database:** Dexie.js (IndexedDB)
+- **PWA:** Vite PWA Plugin
+- **Routing:** React Router DOM
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Development
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [Node.js](https://nodejs.org/)
+- [pnpm](https://pnpm.io/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/oscar370/finzen.git
+cd finzen
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Install dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+pnpm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+
+3. Start the development server:
+
+```bash
+pnpm dev
+
+```
+
+4. Build for production:
+
+```bash
+pnpm build
+
+```
+
+## Documentation
+
+For detailed information regarding application logic, browser compatibility, and backup management, please refer to the [Project Wiki](https://github.com/oscar370/finzen/wiki).
+
+## License
+
+This project is licensed under the GPL v3.0 License - see the LICENSE file for details.
