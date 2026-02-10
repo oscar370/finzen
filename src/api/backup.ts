@@ -7,7 +7,7 @@ import { rebuildAllSummaries } from "./monthly-summary";
 // File System Access utilities
 
 export function isFileSystemApiSupported(): boolean {
-  return "showSaveFilePicker" in window;
+  return "showOpenFilePicker" in self;
 }
 
 export async function verifyPermission(handle: FileSystemFileHandle) {
