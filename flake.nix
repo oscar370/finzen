@@ -14,7 +14,7 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = [
-            pkgs.nodejs_lts
+            pkgs.nodejs
             pkgs.nodePackages.pnpm
           ];
 

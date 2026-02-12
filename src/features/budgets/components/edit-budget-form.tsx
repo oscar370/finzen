@@ -33,7 +33,12 @@ export function EditBudgetForm({ budget }: EditBudgetFormProps) {
   const year = watch("year");
   const month = watch("month");
   const kind = watch("kind");
-  const categories = useAvailableCategories(+year, +month, kind);
+  const categories = useAvailableCategories(
+    +year,
+    +month,
+    kind,
+    budget.categoryId,
+  );
 
   async function onSubmit(data: BudgetFrom) {
     const budget: Budget = {

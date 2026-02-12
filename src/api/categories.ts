@@ -115,6 +115,7 @@ export function useAvailableCategories(
   year: number,
   month: number,
   selectedKind: "income" | "expense",
+  excludeId?: string,
 ) {
   return (
     useLiveQuery(async () => {
@@ -133,8 +134,12 @@ export function useAvailableCategories(
 
       const usedIds = new Set(currentBudgets.map((b) => b.categoryId));
 
-      return allCategories.filter((cat) => !usedIds.has(cat.id));
-    }, [year, month, selectedKind]) ?? []
+      return allCategories.filter((cat) => {
+        if (excludeId && cat.id === excludeId) return true;
+
+        return !usedIds.has(cat.id);
+      });
+    }, [year, month, selectedKind, excludeId]) ?? []
   );
 }
 
