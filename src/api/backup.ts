@@ -42,7 +42,7 @@ export async function setupFileSystemHandle() {
       throw new Error("The system does not support File System API");
 
     const handle = await window.showSaveFilePicker({
-      suggestedName: "finance_backup.json",
+      suggestedName: "finzen_backup.json",
       types: [
         { description: "JSON File", accept: { "application/json": [".json"] } },
       ],
