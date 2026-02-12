@@ -35,9 +35,10 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
   });
 
   async function onSubmit(data: TransactionForm) {
-    const transaction = {
+    const transaction: Transaction = {
       ...data,
       date: dayjs(data.date).valueOf(),
+      amount: +data.amount,
     };
 
     const result = await updateTransaction(transaction);
@@ -104,7 +105,7 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
               allowNegativeValue={false}
               intlConfig={{ locale, currency }}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}

@@ -29,7 +29,11 @@ export function EditAccountForm({ account }: EditAccountFormProps) {
   ];
 
   async function onSubmit(data: Account) {
-    const response = await updateAccount(data);
+    const safeData: Account = {
+      ...data,
+      initialBalance: +data.initialBalance,
+    };
+    const response = await updateAccount(safeData);
 
     if (!response.ok) {
       toast.error(t("errors.edit"));
@@ -82,7 +86,7 @@ export function EditAccountForm({ account }: EditAccountFormProps) {
               intlConfig={{ locale, currency }}
               allowNegativeValue={false}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}

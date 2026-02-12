@@ -40,6 +40,7 @@ export function AddBudgetForm() {
       ...data,
       year: +data.year,
       month: +data.month,
+      amount: +data.amount,
     };
 
     const response = await addBudget(budget);
@@ -111,7 +112,7 @@ export function AddBudgetForm() {
               allowNegativeValue={false}
               intlConfig={{ locale, currency }}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}

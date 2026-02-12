@@ -44,6 +44,7 @@ export function EditBudgetForm({ budget }: EditBudgetFormProps) {
       ...data,
       year: +data.year,
       month: +data.month,
+      amount: +data.amount,
     };
 
     const response = await updateBudget(budget);
@@ -111,7 +112,7 @@ export function EditBudgetForm({ budget }: EditBudgetFormProps) {
               allowNegativeValue={false}
               intlConfig={{ locale, currency }}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}

@@ -64,6 +64,9 @@ i18n
     detection: {
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
+      convertDetectedLanguage: (lng) => {
+        return lng.includes("-") ? lng.split("-")[0] : lng;
+      },
     },
     interpolation: {
       escapeValue: false,

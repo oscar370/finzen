@@ -43,6 +43,7 @@ export function AddTransferForm({ account, onSuccess }: TransferFormProps) {
     const transfer: Transfer = {
       ...data,
       date: dayjs(data.date).valueOf(),
+      amount: +data.amount,
     };
     const result = await addTransfer(transfer);
 
@@ -92,7 +93,7 @@ export function AddTransferForm({ account, onSuccess }: TransferFormProps) {
               intlConfig={{ locale, currency }}
               allowNegativeValue={false}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}

@@ -34,7 +34,12 @@ export function AddAccountForm({ onSuccess }: AddAccountFormProps) {
   ];
 
   async function onSubmit(data: DraftAccount) {
-    const response = await addAccount(data);
+    const safeData: DraftAccount = {
+      ...data,
+      initialBalance: Number(data.initialBalance),
+    };
+
+    const response = await addAccount(safeData);
 
     if (!response.ok) {
       toast.error(t("errors.add"));
@@ -77,11 +82,10 @@ export function AddAccountForm({ onSuccess }: AddAccountFormProps) {
               required
               name={name}
               value={value}
-              decimalsLimit={2}
               intlConfig={{ locale, currency }}
               allowNegativeValue={false}
               onValueChange={(value) =>
-                value ? onChange(Number(value)) : onChange("")
+                value ? onChange(value) : onChange("")
               }
             />
           )}
