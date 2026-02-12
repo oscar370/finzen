@@ -7,7 +7,6 @@ import { ListBox } from "@/components/ui/list-box";
 import { Select } from "@/components/ui/select";
 import { useAppStore } from "@/stores/use-app-store";
 import type { Budget, BudgetFrom } from "@/types/budgets";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -27,7 +26,7 @@ export function EditBudgetForm({ budget }: EditBudgetFormProps) {
     year: budget.year.toString(),
     month: budget.month.toString(),
   };
-  const { control, setValue, watch, handleSubmit } = useForm({
+  const { control, watch, handleSubmit } = useForm({
     defaultValues: initialState,
   });
   const year = watch("year");
@@ -63,10 +62,6 @@ export function EditBudgetForm({ budget }: EditBudgetFormProps) {
 
     navigate("..", { replace: true });
   }
-
-  useEffect(() => {
-    setValue("categoryId", categories[0]?.id);
-  }, [setValue, categories]);
 
   return (
     <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
