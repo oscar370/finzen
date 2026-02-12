@@ -27,6 +27,7 @@ export default defineConfig({
       },
       includeAssets: ["icons/favicon.ico", "icons/apple-touch-icon.png"],
       manifest: {
+        start_url: "welcome",
         short_name: "Finzen",
         name: "Finzen",
         description: "Personal finance manager",
