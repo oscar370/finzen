@@ -124,7 +124,7 @@ export function useAvailableCategories(
           .where("archive")
           .equals(0)
           .filter((c) => c.id !== "system")
-          .toArray(),
+          .sortBy("name"),
         db.budget
           .where("[year+month]")
           .equals([year, month])

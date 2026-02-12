@@ -26,7 +26,7 @@ db.version(1).stores({
 
   categories: "id, name, archive, updatedAt",
 
-  budget: "id, [year+month]",
+  budget: "id, categoryId, [year+month]",
 
   backup: "id",
 });
