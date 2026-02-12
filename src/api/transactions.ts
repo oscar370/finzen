@@ -244,12 +244,15 @@ export async function updateTransaction(data: Transaction) {
       async () => {
         const oldTxn = await db.transactions.get(data.id);
         if (!oldTxn) throw new Error("Transaction not found");
+        const categoryIcon =
+          (await db.categories.get(data.categoryId))?.icon || "helpCircle";
 
         const now = Date.now();
         const updatedTxn: Transaction = {
           ...data,
           updatedAt: now,
           syncStatus: "pending",
+          categoryIcon,
         };
 
         if (oldTxn.accountId === data.accountId) {

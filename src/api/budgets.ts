@@ -102,11 +102,15 @@ export function useBudget(id: string) {
 export async function updateBudget(budget: Budget) {
   try {
     const oldPlannedTxn = await db.budget.get(budget.id);
+    const category = await db.categories.get(budget.categoryId);
 
-    if (!oldPlannedTxn) throw new Error("The budget was not found");
+    if (!oldPlannedTxn || !category)
+      throw new Error("The budget or category was not found");
 
     await db.budget.update(budget.id, {
       ...budget,
+      categoryName: category.name,
+      categoryIcon: category.icon,
       syncStatus: "pending",
       updatedAt: Date.now(),
     });
