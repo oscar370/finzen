@@ -82,7 +82,7 @@ export function EditCategoryForm({ category }: EditCategoryFormProps) {
       <ListBox>
         <ButtonRow variant="suggested">
           <Plus />
-          <span>{t("buttons.addCategory")}</span>
+          <span>{t("buttons.saveChanges", { ns: "common" })}</span>
         </ButtonRow>
       </ListBox>
     </form>

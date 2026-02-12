@@ -162,7 +162,9 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
       </div>
 
       <ListBox>
-        <ButtonRow variant="suggested">{t("buttons.addTransaction")}</ButtonRow>
+        <ButtonRow variant="suggested">
+          {t("buttons.saveChanges", { ns: "common" })}
+        </ButtonRow>
       </ListBox>
     </form>
   );

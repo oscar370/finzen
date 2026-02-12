@@ -94,7 +94,7 @@ export function EditAccountForm({ account }: EditAccountFormProps) {
       </div>
 
       <Button className="mt-4 w-full bg-(--accent)!" variant="pill">
-        {t("buttons.add")}
+        {t("buttons.saveChanges", { ns: "common" })}
       </Button>
     </form>
   );
