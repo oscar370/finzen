@@ -49,7 +49,7 @@ export default defineConfig({
             sizes: "512x512",
           },
         ],
-        theme_color: "#00c951",
+        theme_color: "#222226",
       },
     }),
   ],
