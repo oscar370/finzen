@@ -45,7 +45,7 @@
     "@storybook/addon-vitest": "^10.1.10",
     "@storybook/react-vite": "^10.1.10",
     "@types/node": "^24.10.1",
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@types/wicg-file-system-access": "^2023.10.7",
     "@vitejs/plugin-react-swc": "^4.2.2",
