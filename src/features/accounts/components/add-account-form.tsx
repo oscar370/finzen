@@ -29,8 +29,8 @@ export function AddAccountForm({ onSuccess }: AddAccountFormProps) {
   const accountsTypes = [
     { value: "cash", label: t("types.cash") },
     { value: "debit", label: t("types.debit") },
-    { value: "credit", label: t("types.credit") },
     { value: "investment", label: t("types.investment") },
+    //  { value: "credit", label: t("types.credit") },
   ];
 
   async function onSubmit(data: DraftAccount) {

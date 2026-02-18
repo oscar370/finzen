@@ -245,7 +245,7 @@ export async function updateTransaction(data: Transaction) {
         const oldTxn = await db.transactions.get(data.id);
         if (!oldTxn) throw new Error("Transaction not found");
         const categoryIcon =
-          (await db.categories.get(oldTxn.categoryId))?.icon || "helpCircle";
+          (await db.categories.get(data.categoryId))?.icon || "helpCircle";
 
         const now = Date.now();
         const updatedTxn: Transaction = {

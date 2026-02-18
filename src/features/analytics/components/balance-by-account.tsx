@@ -20,10 +20,10 @@ export function BalanceByAccount() {
     0,
   );
 
-  const creditBalance = accounts.reduce(
+  /*  const creditBalance = accounts.reduce(
     (t, a) => (a.type === "credit" ? t + a.balance : t + 0),
     0,
-  );
+  ); */
 
   const investmentBalance = accounts.reduce(
     (t, a) => (a.type === "investment" ? t + a.balance : t + 0),
@@ -42,11 +42,11 @@ export function BalanceByAccount() {
         subtitle={formatCurrency(currency, debitBalance)}
         property
       />
-      <ActionRow
+      {/*   <ActionRow
         title={t("types.credit", { ns: "accounts" })}
         subtitle={formatCurrency(currency, creditBalance)}
         property
-      />
+      /> */}
       <ActionRow
         title={t("types.investment", { ns: "accounts" })}
         subtitle={formatCurrency(currency, investmentBalance)}

@@ -21,10 +21,6 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      devOptions: {
-        enabled: true,
-        type: "module",
-      },
       includeAssets: ["icons/favicon.ico", "icons/apple-touch-icon.png"],
       manifest: {
         start_url: "/welcome",

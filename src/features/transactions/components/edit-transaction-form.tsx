@@ -9,7 +9,6 @@ import { Select } from "@/components/ui/select";
 import { useAppStore } from "@/stores/use-app-store";
 import type { Transaction, TransactionForm } from "@/types/transactions";
 import dayjs from "dayjs";
-import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -27,7 +26,7 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
   const categories = useCategories();
   const accounts = useAccounts();
   const date = dayjs(transaction.date).format("YYYY-MM-DDTHH:mm");
-  const { control, setValue, handleSubmit } = useForm<TransactionForm>({
+  const { control, handleSubmit } = useForm<TransactionForm>({
     defaultValues: {
       ...transaction,
       date,
@@ -57,14 +56,6 @@ export function EditTransactionForm({ transaction }: EditTransactionFormProps) {
 
     navigate(`${data.kind}s`, { replace: true });
   }
-
-  useEffect(() => {
-    setValue("accountId", accounts[0]?.id);
-  }, [setValue, accounts]);
-
-  useEffect(() => {
-    setValue("categoryId", categories[0]?.id);
-  }, [setValue, categories]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
