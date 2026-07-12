@@ -21,14 +21,15 @@ export function BackupList() {
 
   return (
     <ul className="list rounded-box bg-base-200">
-      <li className="list-row items-center">
-        <span className="list-col-grow">{m.manual_backup()}</span>
+      <li>
         <button
-          className="btn bg-ghost btn-sm btn-square"
+          className="list-row w-full cursor-pointer items-center"
           aria-label={m.download()}
           disabled={isPending}
           onClick={handleManualBackup}
         >
+          <span className="list-col-grow text-start">{m.manual_backup()}</span>
+
           {isPending ? <span className="loading-spinner" /> : <Download />}
         </button>
       </li>

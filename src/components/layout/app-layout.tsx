@@ -23,7 +23,7 @@ export function AppLayout({ children }: React.PropsWithChildren) {
       <div className="drawer-content flex flex-col items-center">{children}</div>
       <div className="drawer-side">
         <label htmlFor="app-sidebar" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-base-100 border-box min-h-full w-60 gap-1 border-r p-4">
+        <ul className="menu bg-base-200 min-h-full w-60 gap-1 p-4">
           {SIDEBAR_ITEMS.map((item) => {
             const Icon = item.icon;
             return (

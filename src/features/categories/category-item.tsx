@@ -13,18 +13,18 @@ export function CategoryItem({ category, onClick }: CategoryItemProps) {
   const Icon = CATEGORY_ICONS[category.icon];
 
   return (
-    <li className="list-row items-center">
-      <div>
-        <Icon />
-      </div>
-
-      <span>{translate(category.name)}</span>
-
+    <li>
       <button
-        className="btn btn-square btn-sm btn-ghost"
+        className="list-row w-full cursor-pointer items-center"
         aria-label={m.open_details()}
         onClick={() => onClick(category)}
       >
+        <div>
+          <Icon />
+        </div>
+
+        <span className="text-start">{translate(category.name)}</span>
+
         <ChevronRight />
       </button>
     </li>

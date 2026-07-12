@@ -2,7 +2,6 @@ import { CATEGORY_ICONS } from "#/lib/constants";
 import { formatCurrency, translate } from "#/lib/utils";
 import { m } from "#/paraglide/messages";
 import type { Budget } from "#/types/budgets";
-import { ChevronRight } from "lucide-react";
 
 type BudgetItemProps = {
   budget: Budget;
@@ -14,20 +13,19 @@ export function BudgetItem({ budget, currency, onClick }: BudgetItemProps) {
   const Icon = CATEGORY_ICONS[budget.categoryIcon];
 
   return (
-    <li className="list">
-      <Icon />
-      <span>{translate(budget.categoryName)}</span>
-      <span
-        className={`${budget.kind === "income" ? "bg-green-800" : "bg-red-800"} rounded-md px-2 text-white`}
-      >
-        {formatCurrency(budget.amount, currency)}
-      </span>
+    <li>
       <button
-        className="btn btn-ghost btn-square"
+        className="list bg-base-200 w-full cursor-pointer"
         aria-label={m.open_details()}
         onClick={() => onClick(budget)}
       >
-        <ChevronRight />
+        <Icon />
+        <span>{translate(budget.categoryName)}</span>
+        <span
+          className={`${budget.kind === "income" ? "bg-green-800" : "bg-red-800"} rounded-md px-2 text-start text-white`}
+        >
+          {formatCurrency(budget.amount, currency)}
+        </span>
       </button>
     </li>
   );

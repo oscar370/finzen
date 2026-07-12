@@ -15,22 +15,23 @@ export function TransactionItem({ transaction, currency, onClick }: TransactionI
   const isIncome = transaction.kind === "income";
 
   return (
-    <li className="list-row items-center">
-      <div>
-        <Icon />
-      </div>
-      <div className="flex flex-col">
-        <span>{transaction.name}</span>
-        <span className="label">{transaction.date.toLocaleDateString()}</span>
-      </div>
-      <span className={`${isIncome ? "bg-green-800" : "bg-red-800"} rounded-md px-2 text-white`}>
-        {formatCurrency(transaction.amount, currency)}
-      </span>
+    <li>
       <button
-        className="btn btn-sm btn-square btn-ghost"
+        className="list-row w-full cursor-pointer items-center"
         aria-label={m.open_details()}
         onClick={() => onClick(transaction)}
       >
+        <div>
+          <Icon />
+        </div>
+        <div className="flex flex-col text-start">
+          <span>{transaction.name}</span>
+          <span className="label">{transaction.date.toLocaleDateString()}</span>
+        </div>
+        <span className={`${isIncome ? "bg-green-800" : "bg-red-800"} rounded-md px-2 text-white`}>
+          {formatCurrency(transaction.amount, currency)}
+        </span>
+
         <ChevronRight />
       </button>
     </li>
