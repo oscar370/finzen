@@ -1,46 +1,27 @@
-import z from "zod";
-import { ArchiveStatusSchema, SyncStatusSchema } from "./common";
+import { m } from "#/paraglide/messages";
+import * as v from "valibot";
 
-export const TransactionSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  amount: z.number(),
-  date: z.number(),
-  kind: z.enum(["expense", "income"]),
-  note: z.string(),
-  accountId: z.string(),
-  transferId: z.string().optional(),
-  relatedAccountId: z.string().optional(),
-  categoryId: z.string(),
-  categoryIcon: z.string(),
-  archive: ArchiveStatusSchema,
-  updatedAt: z.number(),
-  syncStatus: SyncStatusSchema,
+export const vDraftTransaction = v.object({
+  name: v.pipe(
+    v.string(),
+    v.trim(),
+    v.minLength(1, m["errors.min_length"]({ v: 1 })),
+    v.maxLength(50, m["errors.max_length"]({ v: 50 })),
+  ),
+  amount: v.pipe(v.number(), v.minValue(1, m["errors.min_value"]({ v: 1 }))),
+  date: v.date(),
+  kind: v.union([v.literal("expense"), v.literal("income")]),
+  note: v.pipe(v.string(), v.trim()),
+  categoryId: v.number(),
 });
 
-export type Transaction = z.infer<typeof TransactionSchema>;
+export const vTransaction = v.object({
+  id: v.number(),
+  categoryIcon: v.string(),
+  categoryName: v.string(),
+  yearMonth: v.pipe(v.string(), v.regex(/^\d{4}-(0[1-9]|1[0-2])$/)),
+  ...vDraftTransaction.entries,
+});
 
-export type DraftTransaction = Pick<
-  Transaction,
-  "name" | "amount" | "date" | "kind" | "note" | "accountId" | "categoryId"
->;
-
-export type DraftTransactionForm = Omit<DraftTransaction, "date"> & {
-  date: string;
-};
-
-export type TransactionForm = Omit<Transaction, "date"> & {
-  date: string;
-};
-
-export type Transfer = {
-  fromAccountId: string;
-  toAccountId: string;
-  amount: number;
-  date: number;
-  note: string;
-};
-
-export type TransferForm = Omit<Transfer, "date"> & {
-  date: string;
-};
+export type DraftTransaction = v.InferOutput<typeof vDraftTransaction>;
+export type Transaction = v.InferOutput<typeof vTransaction>;

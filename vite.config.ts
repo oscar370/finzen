@@ -1,85 +1,31 @@
-/// <reference types="vitest/config" />
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
+import { devtools } from "@tanstack/devtools-vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
-import { VitePWA } from "vite-plugin-pwa";
 
-// https://vite.dev/config/
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-import { playwright } from "@vitest/browser-playwright";
-import { fileURLToPath } from "node:url";
-const dirname =
-  typeof __dirname !== "undefined"
-    ? __dirname
-    : path.dirname(fileURLToPath(import.meta.url));
-
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
-export default defineConfig({
+const config = defineConfig({
+  resolve: { tsconfigPaths: true },
   plugins: [
-    react(),
+    devtools(),
+    paraglideVitePlugin({
+      project: "./project.inlang",
+      outdir: "./src/paraglide",
+      strategy: ["url", "baseLocale"],
+    }),
+    nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
-    VitePWA({
-      registerType: "autoUpdate",
-      includeAssets: ["icons/favicon.ico", "icons/apple-touch-icon.png"],
-      manifest: {
-        start_url: "/welcome",
-        short_name: "Finzen",
-        name: "Finzen",
-        description: "Personal finance manager",
-        icons: [
-          {
-            src: "icons/icon-192.png",
-            type: "image/png",
-            sizes: "192x192",
-          },
-          {
-            src: "icons/icon-512-maskable.png",
-            type: "image/png",
-            sizes: "512x512",
-            purpose: "any maskable",
-          },
-          {
-            src: "icons/icon-512.png",
-            type: "image/png",
-            sizes: "512x512",
-          },
-        ],
-        theme_color: "#222226",
+    tanstackStart({
+      spa: {
+        enabled: true,
       },
     }),
+    viteReact(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  test: {
-    projects: [
-      {
-        extends: true,
-        plugins: [
-          // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, ".storybook"),
-          }),
-        ],
-        test: {
-          name: "storybook",
-          browser: {
-            enabled: true,
-            headless: true,
-            provider: playwright({}),
-            instances: [
-              {
-                browser: "chromium",
-              },
-            ],
-          },
-          setupFiles: [".storybook/vitest.setup.ts"],
-        },
-      },
-    ],
-  },
 });
+
+export default config;

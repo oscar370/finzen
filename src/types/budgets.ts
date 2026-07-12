@@ -1,36 +1,22 @@
-import z from "zod";
-import { ArchiveStatusSchema, SyncStatusSchema } from "./common";
+import { m } from "#/paraglide/messages";
+import * as v from "valibot";
 
-export const BudgetSchema = z.object({
-  id: z.string(),
-  year: z.number(),
-  month: z.number(),
-  categoryId: z.string(),
-  categoryName: z.string(),
-  categoryIcon: z.string(),
-  amount: z.number(),
-  kind: z.enum(["expense", "income"]),
-  updatedAt: z.number(),
-  syncStatus: SyncStatusSchema,
-  deleted: ArchiveStatusSchema,
+export const vDraftBudget = v.object({
+  amount: v.pipe(
+    v.number(m["errors.invalid_value"]()),
+    v.minValue(1, m["errors.min_value"]({ v: 1 })),
+  ),
+  yearMonth: v.pipe(v.string(), v.regex(/^\d{4}-(0[1-9]|1[0-2])$/)),
+  kind: v.union([v.literal("expense"), v.literal("income")]),
+  categoryId: v.number(),
 });
 
-export type Budget = z.infer<typeof BudgetSchema>;
+export const vBudget = v.object({
+  id: v.number(),
+  categoryIcon: v.string(),
+  categoryName: v.string(),
+  ...vDraftBudget.entries,
+});
 
-export type BudgetFrom = Omit<Budget, "year" | "month"> & {
-  year: string;
-  month: string;
-};
-
-export type BudgetDraft = Pick<
-  Budget,
-  "year" | "month" | "categoryId" | "amount" | "kind"
->;
-
-export type BudgetDraftForm = Pick<
-  BudgetDraft,
-  "categoryId" | "amount" | "kind"
-> & {
-  year: string;
-  month: string;
-};
+export type DraftBudget = v.InferOutput<typeof vDraftBudget>;
+export type Budget = v.InferOutput<typeof vBudget>;
