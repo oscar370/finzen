@@ -1,5 +1,5 @@
 import { MONTHS } from "#/lib/constants";
-import { formatDateValue } from "#/lib/utils";
+import { formatDateValue, formatYearMonth } from "#/lib/utils";
 import type { FieldElementProps, FormProps, FormSchema } from "@formisch/react";
 import { Form as FormBase } from "@formisch/react";
 import { useRef, useState } from "react";
@@ -213,7 +213,7 @@ export function Select<T extends string | number | undefined>({
   );
 }
 
-type MonthYearInputProps = {
+type YearMonthInputProps = {
   name?: string;
   errors?: [string, ...string[]] | null;
   label: string;
@@ -221,14 +221,13 @@ type MonthYearInputProps = {
   onChange: (value: string | undefined) => void;
 };
 
-export function MonthYearInput({ errors, label, value, onChange, name }: MonthYearInputProps) {
+export function YearMonthInput({ errors, label, value, onChange, name }: YearMonthInputProps) {
   const initialYear = value ? parseInt(value.split("-")[0], 10) : new Date().getFullYear();
   const [viewYear, setViewYear] = useState(initialYear);
   const detailsRef = useRef<HTMLDetailsElement | null>(null);
 
   const handleSelect = (monthIndex: number) => {
-    const monthValue = (monthIndex + 1).toString().padStart(2, "0");
-    onChange(`${viewYear}-${monthValue}`);
+    onChange(formatYearMonth(viewYear, monthIndex));
     detailsRef.current?.removeAttribute("open");
   };
 

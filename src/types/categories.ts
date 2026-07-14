@@ -9,7 +9,6 @@ export const vDraftCategory = v.object({
     v.maxLength(50, m["errors.max_length"]({ v: 50 })),
   ),
   icon: v.string(),
-  color: v.string(),
 });
 
 export const vCategory = v.object({

@@ -39,3 +39,8 @@ export function formatDateValue(input: Date | undefined) {
 
   return `${year}-${month}-${day}`;
 }
+
+export function formatYearMonth(year: number, monthIndex: number): string {
+  const monthString = (monthIndex + 1).toString().padStart(2, "0");
+  return `${year}-${monthString}`;
+}

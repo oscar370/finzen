@@ -36,7 +36,6 @@ async function seedCategories() {
     id: cat.id,
     name: cat.name,
     icon: cat.icon,
-    color: cat.color,
   }));
 
   await db.categories.bulkAdd(categories);

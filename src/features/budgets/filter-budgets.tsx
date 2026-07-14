@@ -1,4 +1,4 @@
-import { MonthYearInput } from "#/components/ui/form";
+import { YearMonthInput } from "#/components/ui/form";
 import { m } from "#/paraglide/messages";
 
 type FilterBudgetsProps = {
@@ -14,7 +14,7 @@ export function FilterBudgets({ yearMonth, onYearMonthChange }: FilterBudgetsPro
         {m.filters()}
       </label>
       <div className="collapse-content space-y-2">
-        <MonthYearInput
+        <YearMonthInput
           name="yearMonth"
           label={m.year_month()}
           value={yearMonth}

@@ -1,4 +1,5 @@
 import { db } from "#/lib/db";
+import { formatYearMonth } from "#/lib/utils";
 import type { Budget, DraftBudget } from "#/types/budgets";
 import { vBudget, vDraftBudget } from "#/types/budgets";
 import { parse } from "valibot";
@@ -106,7 +107,7 @@ export async function addRecurringBudgets() {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
-  const currentKey = `${currentYear}-${currentMonth}`;
+  const currentKey = formatYearMonth(currentYear, currentMonth);
 
   const appState = await getAppState();
   if (appState.lastBudgetsAddedAt) {
@@ -115,9 +116,18 @@ export async function addRecurringBudgets() {
     if (lastYearAt === currentYear && lastMonthAt === currentMonth) return;
   }
 
-  const lastYear = appState.lastBudgetsAddedAt?.getFullYear() ?? currentYear;
-  const lastMonth = appState.lastBudgetsAddedAt?.getMonth() ?? currentMonth - 1;
-  const lastKey = `${lastYear}-${lastMonth}`;
+  let lastYear = currentYear;
+  let lastMonth = currentMonth - 1;
+
+  if (appState.lastBudgetsAddedAt) {
+    lastYear = appState.lastBudgetsAddedAt.getFullYear();
+    lastMonth = appState.lastBudgetsAddedAt.getMonth();
+  } else if (lastMonth < 0) {
+    lastMonth = 11;
+    lastYear -= 1;
+  }
+
+  const lastKey = formatYearMonth(lastYear, lastMonth);
 
   const [pastBudgets, existingCurrentBudgets] = await Promise.all([
     db.budgets.where("yearMonth").equals(lastKey).toArray(),

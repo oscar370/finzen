@@ -1,4 +1,4 @@
-import { MonthYearInput, Select, TextInput } from "#/components/ui/form";
+import { Select, TextInput, YearMonthInput } from "#/components/ui/form";
 import { translate } from "#/lib/utils";
 import { m } from "#/paraglide/messages";
 import type { Category } from "#/types/categories";
@@ -37,7 +37,7 @@ export function FilterTransactions({
           type="search"
         />
 
-        <MonthYearInput
+        <YearMonthInput
           name="yearMonth"
           label={m.year_month()}
           value={yearMonth}

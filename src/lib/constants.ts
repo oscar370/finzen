@@ -32,70 +32,54 @@ import type { Category } from "../types/categories";
 
 export const DEFAULT_CATEGORIES: Category[] = [
   {
-    name: "categories.system",
-    icon: "bolt",
-    id: 0,
-    color: "#6B7280",
-  },
-  {
     name: "categories.food",
     icon: "utensils",
-    color: "#F59E0B",
-    id: 1,
+    id: 0,
   },
   {
     name: "categories.transport",
     icon: "car",
-    color: "#3B82F6",
-    id: 2,
+    id: 1,
   },
   {
     name: "categories.housing",
     icon: "home",
-    color: "#10B981",
-    id: 3,
+    id: 2,
   },
   {
     name: "categories.entertainment",
     icon: "gamepad",
-    color: "#8B5CF6",
-    id: 4,
+    id: 3,
   },
   {
     name: "categories.health",
     icon: "heart",
-    color: "#EF4444",
-    id: 5,
+    id: 4,
   },
   {
     name: "categories.shopping",
     icon: "shoppingBag",
-    color: "#EC4899",
-    id: 6,
+    id: 5,
   },
   {
     name: "categories.salary",
     icon: "wallet",
-    color: "#22C55E",
-    id: 7,
+    id: 6,
   },
   {
     name: "categories.investments",
     icon: "trendingUp",
-    color: "#0EA5E9",
-    id: 8,
+    id: 7,
   },
   {
     name: "categories.gifts",
     icon: "gift",
-    color: "#F97316",
-    id: 9,
+    id: 8,
   },
   {
     name: "categories.others",
     icon: "helpCircle",
-    id: 10,
-    color: "#9CA3AF",
+    id: 9,
   },
 ];
 
