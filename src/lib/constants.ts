@@ -153,16 +153,16 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
 };
 
 export const MONTHS = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
+  m.january(),
+  m.february(),
+  m.march(),
+  m.april(),
+  m.may(),
+  m.june(),
+  m.july(),
+  m.august(),
+  m.september(),
+  m.october(),
+  m.november(),
+  m.december(),
 ];

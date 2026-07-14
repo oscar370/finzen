@@ -1,6 +1,5 @@
 import { CATEGORY_ICONS } from "#/lib/constants";
 import { formatCurrency } from "#/lib/utils";
-import { m } from "#/paraglide/messages";
 import type { Transaction } from "#/types/transactions";
 import { ChevronRight } from "lucide-react";
 
@@ -18,7 +17,6 @@ export function TransactionItem({ transaction, currency, onClick }: TransactionI
     <li>
       <button
         className="list-row w-full cursor-pointer items-center"
-        aria-label={m.open_details()}
         onClick={() => onClick(transaction)}
       >
         <div>

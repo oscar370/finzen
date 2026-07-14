@@ -1,6 +1,5 @@
 import { CATEGORY_ICONS } from "#/lib/constants";
 import { translate } from "#/lib/utils";
-import { m } from "#/paraglide/messages";
 import type { Category } from "#/types/categories";
 import { ChevronRight } from "lucide-react";
 
@@ -16,7 +15,6 @@ export function CategoryItem({ category, onClick }: CategoryItemProps) {
     <li>
       <button
         className="list-row w-full cursor-pointer items-center"
-        aria-label={m.open_details()}
         onClick={() => onClick(category)}
       >
         <div>

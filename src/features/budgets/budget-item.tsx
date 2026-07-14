@@ -1,6 +1,5 @@
 import { CATEGORY_ICONS } from "#/lib/constants";
 import { formatCurrency, translate } from "#/lib/utils";
-import { m } from "#/paraglide/messages";
 import type { Budget } from "#/types/budgets";
 
 type BudgetItemProps = {
@@ -14,11 +13,7 @@ export function BudgetItem({ budget, currency, onClick }: BudgetItemProps) {
 
   return (
     <li>
-      <button
-        className="list bg-base-200 w-full cursor-pointer"
-        aria-label={m.open_details()}
-        onClick={() => onClick(budget)}
-      >
+      <button className="list bg-base-200 w-full cursor-pointer" onClick={() => onClick(budget)}>
         <Icon />
         <span>{translate(budget.categoryName)}</span>
         <span

@@ -6,16 +6,16 @@ import type { PropsWithChildren } from "react";
 import { useEffect, useState } from "react";
 
 const SIDEBAR_ITEMS = [
-  { label: m["sidebar.buttons.home"](), to: "/app", icon: House },
-  { label: m["sidebar.buttons.incomes"](), to: "/app/incomes", icon: TrendingUp },
+  { label: m.home(), to: "/app", icon: House },
+  { label: m.incomes(), to: "/app/incomes", icon: TrendingUp },
   {
-    label: m["sidebar.buttons.expenses"](),
+    label: m.expenses(),
     to: "/app/expenses",
     icon: TrendingDown,
   },
-  { label: m["sidebar.buttons.categories"](), to: "/app/categories", icon: Tags },
-  { label: m["sidebar.buttons.budgets"](), to: "/app/budgets", icon: Banknote },
-  { label: m["sidebar.buttons.settings"](), to: "/app/settings", icon: Settings },
+  { label: m.categories(), to: "/app/categories", icon: Tags },
+  { label: m.budgets(), to: "/app/budgets", icon: Banknote },
+  { label: m.settings(), to: "/app/settings", icon: Settings },
 ];
 
 export function AppLayout({ children }: PropsWithChildren) {
