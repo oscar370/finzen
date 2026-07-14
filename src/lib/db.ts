@@ -20,7 +20,7 @@ db.version(1).stores({
   transactions: "++id, date, kind, [categoryId+date], [kind+yearMonth+date]",
   monthly_summaries: "id, year, month",
   categories: "++id, name",
-  budgets: "++id, categoryName, [yearMonth+kind], [kind+yearMonth+categoryId]",
+  budgets: "++id, lastBudgetsAddedAt, categoryName, [yearMonth+kind], [kind+yearMonth+categoryId]",
 });
 
 db.on("populate", async () => {

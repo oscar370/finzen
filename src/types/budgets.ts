@@ -9,6 +9,8 @@ export const vDraftBudget = v.object({
   yearMonth: v.pipe(v.string(), v.regex(/^\d{4}-(0[1-9]|1[0-2])$/)),
   kind: v.union([v.literal("expense"), v.literal("income")]),
   categoryId: v.number(),
+  repeat: v.boolean(),
+  relatedBudget: v.optional(v.number()),
 });
 
 export const vBudget = v.object({

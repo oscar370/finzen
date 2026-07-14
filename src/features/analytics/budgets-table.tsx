@@ -19,10 +19,10 @@ export function BudgetsTable({ budgets, transactions, currency, type }: BudgetsT
       <table className="table">
         <thead>
           <tr>
-            <th className="text-center">{m.category()}</th>
-            <th className="text-center">{m.expected()}</th>
-            <th className="text-center">{m.real()}</th>
-            <th className="text-center">{m.difference()}</th>
+            <th>{m.category()}</th>
+            <th>{m.expected()}</th>
+            <th>{m.real()}</th>
+            <th>{m.difference()}</th>
           </tr>
         </thead>
 

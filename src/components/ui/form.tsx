@@ -2,7 +2,7 @@ import { MONTHS } from "#/lib/constants";
 import { formatDateValue } from "#/lib/utils";
 import type { FieldElementProps, FormProps, FormSchema } from "@formisch/react";
 import { Form as FormBase } from "@formisch/react";
-import * as React from "react";
+import { useRef, useState } from "react";
 
 type BaseFieldProps = Partial<Omit<FieldElementProps, "onChange">>;
 
@@ -223,8 +223,8 @@ type MonthYearInputProps = {
 
 export function MonthYearInput({ errors, label, value, onChange, name }: MonthYearInputProps) {
   const initialYear = value ? parseInt(value.split("-")[0], 10) : new Date().getFullYear();
-  const [viewYear, setViewYear] = React.useState(initialYear);
-  const detailsRef = React.useRef<HTMLDetailsElement | null>(null);
+  const [viewYear, setViewYear] = useState(initialYear);
+  const detailsRef = useRef<HTMLDetailsElement | null>(null);
 
   const handleSelect = (monthIndex: number) => {
     const monthValue = (monthIndex + 1).toString().padStart(2, "0");
@@ -289,6 +289,42 @@ export function MonthYearInput({ errors, label, value, onChange, name }: MonthYe
           })}
         </div>
       </div>
+
+      {errors && (
+        <div id={`${name}-error`} className="text-error mt-0.5 text-sm">
+          {errors[0]}
+        </div>
+      )}
+    </div>
+  );
+}
+
+type SwitchProps = BaseFieldProps & {
+  errors?: [string, ...string[]] | null;
+  label: string;
+  value: boolean | undefined;
+  onChange: (value: boolean | undefined) => void;
+};
+
+export function Switch({ errors, label, value, onChange, name, ...rest }: SwitchProps) {
+  return (
+    <div className="flex flex-col">
+      <label className="input has-aria-invalid:input-error w-full cursor-auto">
+        <span className="label">{label}</span>
+
+        <div className="flex w-full justify-end">
+          <input
+            {...rest}
+            className="toggle! aria-invalid:toggle-error!"
+            name={name}
+            type="checkbox"
+            value={String(value)}
+            onChange={(e) => onChange(Boolean(e.currentTarget.value))}
+            aria-invalid={!!errors}
+            aria-errormessage={`${name}-error`}
+          />
+        </div>
+      </label>
 
       {errors && (
         <div id={`${name}-error`} className="text-error mt-0.5 text-sm">

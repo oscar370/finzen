@@ -1,4 +1,4 @@
-import { NumberInput, Select, TextInput } from "#/components/ui/form";
+import { NumberInput, Select, Switch, TextInput } from "#/components/ui/form";
 import { QUERY_PARAMS, TRANSACTION_TYPES } from "#/lib/constants";
 import { translate } from "#/lib/utils";
 import { m } from "#/paraglide/messages";
@@ -121,6 +121,18 @@ export function NewBudgetModal({ categories }: NewBudgetModal) {
                         </option>
                       ))}
                     </Select>
+                  )}
+                </Field>
+
+                <Field of={form} path={["repeat"]}>
+                  {(field) => (
+                    <Switch
+                      {...field.props}
+                      label="Repeat"
+                      value={field.input}
+                      errors={field.errors}
+                      onChange={field.onChange}
+                    />
                   )}
                 </Field>
               </div>

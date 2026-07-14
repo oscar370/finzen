@@ -2,6 +2,7 @@ import { db } from "#/lib/db";
 import type { Budget, DraftBudget } from "#/types/budgets";
 import { vBudget, vDraftBudget } from "#/types/budgets";
 import { parse } from "valibot";
+import { getAppState, updateAppState } from "./settings";
 
 export async function addBudget(draftBudget: DraftBudget) {
   const budget = parse(vDraftBudget, draftBudget);
@@ -88,4 +89,66 @@ export async function updateBudget(updates: Budget) {
 
 export async function deleteBudget(id: number) {
   await db.budgets.delete(id);
+}
+
+type RecurringBudgets = {
+  amount: number;
+  yearMonth: string;
+  kind: "expense" | "income";
+  categoryId: number;
+  repeat: boolean;
+  relatedBudget?: number | undefined;
+  categoryIcon: string;
+  categoryName: string;
+};
+
+export async function addRecurringBudgets() {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const currentKey = `${currentYear}-${currentMonth}`;
+
+  const appState = await getAppState();
+  if (appState.lastBudgetsAddedAt) {
+    const lastYearAt = appState.lastBudgetsAddedAt.getFullYear();
+    const lastMonthAt = appState.lastBudgetsAddedAt.getMonth();
+    if (lastYearAt === currentYear && lastMonthAt === currentMonth) return;
+  }
+
+  const lastYear = appState.lastBudgetsAddedAt?.getFullYear() ?? currentYear;
+  const lastMonth = appState.lastBudgetsAddedAt?.getMonth() ?? currentMonth - 1;
+  const lastKey = `${lastYear}-${lastMonth}`;
+
+  const [pastBudgets, existingCurrentBudgets] = await Promise.all([
+    db.budgets.where("yearMonth").equals(lastKey).toArray(),
+    db.budgets.where("yearMonth").equals(currentKey).toArray(),
+  ]);
+
+  const existingRelatedIds = new Set(
+    existingCurrentBudgets.map((b) => b.relatedBudget).filter(Boolean),
+  );
+
+  const newBudgets: RecurringBudgets[] = [];
+  for (const budget of pastBudgets) {
+    if (budget.repeat && !existingRelatedIds.has(budget.id)) {
+      const { id, ...rest } = budget;
+      newBudgets.push({
+        ...rest,
+        relatedBudget: id,
+        yearMonth: currentKey,
+      });
+    }
+  }
+
+  if (newBudgets.length === 0) {
+    await db.app_state.update(appState.id, { lastBudgetsAddedAt: now });
+    return;
+  }
+
+  await db.transaction("rw", [db.app_state, db.budgets], async () => {
+    await Promise.all([
+      await db.budgets.bulkAdd(newBudgets),
+      await updateAppState({ lastBudgetsAddedAt: now }),
+    ]);
+  });
 }

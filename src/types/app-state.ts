@@ -8,6 +8,7 @@ export const vAppStateDraft = v.object({
 
 export const vAppState = v.object({
   id: v.number(),
+  lastBudgetsAddedAt: v.optional(v.date()),
   ...vAppStateDraft.entries,
 });
 

@@ -1,7 +1,9 @@
 import { m } from "#/paraglide/messages";
+import { addRecurringBudgets } from "#/services/budgets";
 import { Link } from "@tanstack/react-router";
 import { Banknote, House, Settings, Tags, TrendingDown, TrendingUp } from "lucide-react";
-import * as React from "react";
+import type { PropsWithChildren } from "react";
+import { useEffect, useState } from "react";
 
 const SIDEBAR_ITEMS = [
   { label: m["sidebar.buttons.home"](), to: "/app", icon: House },
@@ -16,7 +18,15 @@ const SIDEBAR_ITEMS = [
   { label: m["sidebar.buttons.settings"](), to: "/app/settings", icon: Settings },
 ];
 
-export function AppLayout({ children }: React.PropsWithChildren) {
+export function AppLayout({ children }: PropsWithChildren) {
+  const [checkedBudgets, setCheckedBudgets] = useState(false);
+
+  useEffect(() => {
+    if (checkedBudgets) return;
+    addRecurringBudgets();
+    setCheckedBudgets(true);
+  }, [checkedBudgets]);
+
   return (
     <div className="drawer md:drawer-open">
       <input id="app-sidebar" type="checkbox" className="drawer-toggle" />
