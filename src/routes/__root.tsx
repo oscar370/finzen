@@ -8,6 +8,7 @@ import { MainLayout } from "#/components/layout/main-layout";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+  ssr: false,
   beforeLoad: async () => {
     // Other redirect strategies are possible; see
     // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect

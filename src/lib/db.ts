@@ -24,8 +24,7 @@ db.version(1).stores({
 });
 
 db.on("populate", async () => {
-  await seedCategories();
-  await seedAppState();
+  await Promise.all([seedCategories(), seedAppState()]);
 });
 
 async function seedCategories() {

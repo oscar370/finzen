@@ -11,13 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppLayoutRouteImport } from './routes/app/_layout'
-import { Route as AppStartIndexRouteImport } from './routes/app/start/index'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AppLayoutIndexRouteImport } from './routes/app/_layout/index'
-import { Route as AppLayoutSettingsIndexRouteImport } from './routes/app/_layout/settings/index'
-import { Route as AppLayoutIncomesIndexRouteImport } from './routes/app/_layout/incomes/index'
-import { Route as AppLayoutExpensesIndexRouteImport } from './routes/app/_layout/expenses/index'
-import { Route as AppLayoutCategoriesIndexRouteImport } from './routes/app/_layout/categories/index'
+import { Route as AppStartIndexRouteImport } from './routes/app/start/index'
 import { Route as AppLayoutBudgetsIndexRouteImport } from './routes/app/_layout/budgets/index'
+import { Route as AppLayoutCategoriesIndexRouteImport } from './routes/app/_layout/categories/index'
+import { Route as AppLayoutExpensesIndexRouteImport } from './routes/app/_layout/expenses/index'
+import { Route as AppLayoutIncomesIndexRouteImport } from './routes/app/_layout/incomes/index'
+import { Route as AppLayoutSettingsIndexRouteImport } from './routes/app/_layout/settings/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,9 +30,9 @@ const AppLayoutRoute = AppLayoutRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppStartIndexRoute = AppStartIndexRouteImport.update({
-  id: '/app/start/',
-  path: '/app/start/',
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppLayoutIndexRoute = AppLayoutIndexRouteImport.update({
@@ -39,19 +40,14 @@ const AppLayoutIndexRoute = AppLayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppLayoutSettingsIndexRoute = AppLayoutSettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => AppLayoutRoute,
+const AppStartIndexRoute = AppStartIndexRouteImport.update({
+  id: '/app/start/',
+  path: '/app/start/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AppLayoutIncomesIndexRoute = AppLayoutIncomesIndexRouteImport.update({
-  id: '/incomes/',
-  path: '/incomes/',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
-const AppLayoutExpensesIndexRoute = AppLayoutExpensesIndexRouteImport.update({
-  id: '/expenses/',
-  path: '/expenses/',
+const AppLayoutBudgetsIndexRoute = AppLayoutBudgetsIndexRouteImport.update({
+  id: '/budgets/',
+  path: '/budgets/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 const AppLayoutCategoriesIndexRoute =
@@ -60,15 +56,26 @@ const AppLayoutCategoriesIndexRoute =
     path: '/categories/',
     getParentRoute: () => AppLayoutRoute,
   } as any)
-const AppLayoutBudgetsIndexRoute = AppLayoutBudgetsIndexRouteImport.update({
-  id: '/budgets/',
-  path: '/budgets/',
+const AppLayoutExpensesIndexRoute = AppLayoutExpensesIndexRouteImport.update({
+  id: '/expenses/',
+  path: '/expenses/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutIncomesIndexRoute = AppLayoutIncomesIndexRouteImport.update({
+  id: '/incomes/',
+  path: '/incomes/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutSettingsIndexRoute = AppLayoutSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppLayoutRouteWithChildren
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/': typeof AppLayoutIndexRoute
   '/app/start/': typeof AppStartIndexRoute
   '/app/budgets/': typeof AppLayoutBudgetsIndexRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app': typeof AppLayoutIndexRoute
   '/app/start': typeof AppStartIndexRoute
   '/app/budgets': typeof AppLayoutBudgetsIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app/_layout': typeof AppLayoutRouteWithChildren
+  '/api/auth/$': typeof ApiAuthSplatRoute
   '/app/_layout/': typeof AppLayoutIndexRoute
   '/app/start/': typeof AppStartIndexRoute
   '/app/_layout/budgets/': typeof AppLayoutBudgetsIndexRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
+    | '/api/auth/$'
     | '/app/'
     | '/app/start/'
     | '/app/budgets/'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/auth/$'
     | '/app'
     | '/app/start'
     | '/app/budgets'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app/_layout'
+    | '/api/auth/$'
     | '/app/_layout/'
     | '/app/start/'
     | '/app/_layout/budgets/'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   AppStartIndexRoute: typeof AppStartIndexRoute
 }
 
@@ -156,11 +169,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/start/': {
-      id: '/app/start/'
-      path: '/app/start'
-      fullPath: '/app/start/'
-      preLoaderRoute: typeof AppStartIndexRouteImport
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/_layout/': {
@@ -170,25 +183,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/settings/': {
-      id: '/app/_layout/settings/'
-      path: '/settings'
-      fullPath: '/app/settings/'
-      preLoaderRoute: typeof AppLayoutSettingsIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
+    '/app/start/': {
+      id: '/app/start/'
+      path: '/app/start'
+      fullPath: '/app/start/'
+      preLoaderRoute: typeof AppStartIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/app/_layout/incomes/': {
-      id: '/app/_layout/incomes/'
-      path: '/incomes'
-      fullPath: '/app/incomes/'
-      preLoaderRoute: typeof AppLayoutIncomesIndexRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
-    '/app/_layout/expenses/': {
-      id: '/app/_layout/expenses/'
-      path: '/expenses'
-      fullPath: '/app/expenses/'
-      preLoaderRoute: typeof AppLayoutExpensesIndexRouteImport
+    '/app/_layout/budgets/': {
+      id: '/app/_layout/budgets/'
+      path: '/budgets'
+      fullPath: '/app/budgets/'
+      preLoaderRoute: typeof AppLayoutBudgetsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/app/_layout/categories/': {
@@ -198,11 +204,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutCategoriesIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/budgets/': {
-      id: '/app/_layout/budgets/'
-      path: '/budgets'
-      fullPath: '/app/budgets/'
-      preLoaderRoute: typeof AppLayoutBudgetsIndexRouteImport
+    '/app/_layout/expenses/': {
+      id: '/app/_layout/expenses/'
+      path: '/expenses'
+      fullPath: '/app/expenses/'
+      preLoaderRoute: typeof AppLayoutExpensesIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/app/_layout/incomes/': {
+      id: '/app/_layout/incomes/'
+      path: '/incomes'
+      fullPath: '/app/incomes/'
+      preLoaderRoute: typeof AppLayoutIncomesIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/app/_layout/settings/': {
+      id: '/app/_layout/settings/'
+      path: '/settings'
+      fullPath: '/app/settings/'
+      preLoaderRoute: typeof AppLayoutSettingsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
   }
@@ -233,6 +253,7 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
   AppStartIndexRoute: AppStartIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -17,6 +17,7 @@
   "warnings.delete": "Deletion cannot be undone",
   "start.title": "Welcome",
   "start.description": "Customize the fields to suit your needs, then click Continue",
+  "start.second_description": "Or restore your backup using your cloud service",
   "start.btn": "Continue",
   "currencies.usd": "United States Dollar",
   "currencies.eur": "Euro",
@@ -99,5 +100,6 @@
   "september": "September",
   "october": "October",
   "november": "November",
-  "december": "December"
+  "december": "December",
+  "login.google": "Login with Google"
 }
