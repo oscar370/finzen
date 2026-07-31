@@ -52,10 +52,7 @@ function RouteComponent() {
         {!appState.cloudProvider && (
           <div role="alert" className="alert alert-warning mt-2">
             <AlertTriangle className="size-4" />
-            <span>
-              Warning: If you have a previous backup in the cloud, it will take precedence when you
-              re-link it, replacing the local data.
-            </span>
+            <span>{m["warnings.cloud_backup"]()}</span>
           </div>
         )}
       </section>

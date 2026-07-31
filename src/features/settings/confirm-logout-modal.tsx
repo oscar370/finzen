@@ -31,7 +31,7 @@ export function ConfirmLogoutModal() {
           disabled={isPending}
           onClick={() => modalRef.current?.showModal()}
         >
-          <span className="list-col-grow text-start">Logout</span>
+          <span className="list-col-grow text-start">{m.logout()}</span>
 
           {isPending ? <span className="loading loading-spinner"></span> : <ChevronRight />}
         </button>
@@ -40,9 +40,9 @@ export function ConfirmLogoutModal() {
       {createPortal(
         <dialog className="modal duration-150" ref={modalRef}>
           <div className="modal-box space-y-2 overflow-visible duration-150">
-            <h2 className="text-lg font-bold">Logout</h2>
+            <h2 className="text-lg font-bold">{m.logout()}</h2>
 
-            <p>Si cierras la sesión, no se mantendrá el respaldo en la nube</p>
+            <p>{m["warnings.logout"]()}</p>
 
             <div className="flex justify-end gap-2">
               <button
@@ -54,7 +54,7 @@ export function ConfirmLogoutModal() {
                 {m.cancel()}
               </button>
               <button className="btn btn-primary" onClick={handleGoogleLogout}>
-                Continuar
+                {m.continue()}
               </button>
             </div>
           </div>

@@ -55,7 +55,7 @@ export function GoogleBackupItem({ provider, backedAt }: GoogleBackupItemProps) 
           disabled={isPending}
           onClick={handleGoogleSignin}
         >
-          <span className="list-col-grow text-start">Setup backup with Google</span>
+          <span className="list-col-grow text-start">{m.setup_google_backup()}</span>
 
           {isPending ? <span className="loading loading-spinner"></span> : <ChevronRight />}
         </button>
@@ -66,7 +66,7 @@ export function GoogleBackupItem({ provider, backedAt }: GoogleBackupItemProps) 
     <>
       <li>
         <div className="list-row w-full items-center">
-          <span className="list-col-grow text-start">Last backed up</span>
+          <span className="list-col-grow text-start">{m.last_backed_up()}</span>
 
           {`${backedAt?.toLocaleTimeString()} ${backedAt?.toLocaleDateString()}`}
         </div>
@@ -78,7 +78,7 @@ export function GoogleBackupItem({ provider, backedAt }: GoogleBackupItemProps) 
           disabled={isPending}
           onClick={handleForceSync}
         >
-          <span className="list-col-grow text-start">Force sync</span>
+          <span className="list-col-grow text-start">{m.force_sync()}</span>
 
           {isPending ? <span className="loading loading-spinner"></span> : <RotateCw />}
         </button>

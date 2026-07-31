@@ -1,12 +1,14 @@
 import { NumberInput, Select } from "#/components/ui/form";
 import { authClient } from "#/lib/auth-client";
 import { CURRENCIES, LANGUAGES } from "#/lib/constants";
+import { db } from "#/lib/db";
 import { m } from "#/paraglide/messages";
 import { getLocale, setLocale } from "#/paraglide/runtime";
 import { setupCloudBackup } from "#/services/backup";
 import { getAppState, updateAppState } from "#/services/settings";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useLiveQuery } from "dexie-react-hooks";
+import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import * as v from "valibot";
@@ -44,6 +46,22 @@ function RouteComponent() {
     updateAppState({ isAppInit: true });
     navigate({ to: "/app", replace: true });
   };
+
+  async function handleRestoreLocalBackup(e: ChangeEvent<HTMLInputElement>) {
+    setIsPending(true);
+    try {
+      const { files } = e.currentTarget;
+      if (!files) return;
+      const file = files[0];
+      await db.import(file, { overwriteValues: true });
+      await navigate({ to: "/app", replace: true });
+    } catch (error) {
+      console.error(error);
+      toast.error(m["errors.unexpected"]());
+    } finally {
+      setIsPending(false);
+    }
+  }
 
   async function handleGoogleSignin() {
     setIsPending(true);
@@ -119,12 +137,22 @@ function RouteComponent() {
         </div>
 
         <button className="btn btn-primary mt-2 min-w-30" onClick={handleInit}>
-          {m["start.btn"]()}
+          {m.continue()}
         </button>
 
         <div className="mt-4 w-full max-w-100">
           <p className="text-center">{m["start.second_description"]()}</p>
-          <div className="mt-1 flex w-full items-start justify-start">
+          <div className="mt-1 flex w-full items-start justify-start gap-2">
+            <label className="btn has-disabled:btn-disabled btn-neutral">
+              <span>{m.restore_local_backup()}</span>
+
+              <input
+                className="sr-only"
+                type="file"
+                disabled={isPending}
+                onChange={handleRestoreLocalBackup}
+              />
+            </label>
             <button
               className="btn border-[#e5e5e5] bg-white text-black"
               disabled={isPending}

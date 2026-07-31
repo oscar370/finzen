@@ -10,6 +10,20 @@ import { getAppState, updateAppState } from "./settings";
 export async function manualBackup() {
   const blob = await db.export({
     prettyJson: true,
+    transform: (table, value, key) => {
+      if (table === "app_state") {
+        const updatedValue = {
+          ...value,
+          backedAt: undefined,
+          backupId: undefined,
+          cloudProvider: undefined,
+        };
+
+        return { value: updatedValue, key };
+      }
+
+      return { value, key };
+    },
   });
 
   const url = URL.createObjectURL(blob);
@@ -29,13 +43,17 @@ export async function setupCloudBackup(provider: AppState["cloudProvider"]) {
 
   if (!backup) {
     const response = await uploadBackupToGoogleDrive();
-    await updateAppState({ cloudProvider: provider, backupId: response.id, backedAt: new Date() });
+    await updateAppState({
+      cloudProvider: provider,
+      backupId: response.id,
+      backedAt: new Date(),
+      isAppInit: true,
+    });
     return;
   }
 
   const content = await getBackupFromGoogleDriveById(backup.id);
-  console.log(content);
-  await db.import(content, { overwriteValues: true, clearTablesBeforeImport: true });
+  await db.import(content, { overwriteValues: true });
   await updateAppState({ cloudProvider: provider, backupId: backup.id, backedAt: new Date() });
 }
 
@@ -57,7 +75,7 @@ export async function syncBackup() {
 
   if (metadata.modifiedTime > appState.backedAt) {
     const content = await getBackupFromGoogleDriveById(appState.backupId);
-    await db.import(content, { overwriteValues: true, clearTablesBeforeImport: true });
+    await db.import(content, { overwriteValues: true });
   } else {
     await updateGoogleDriveBackup();
   }
