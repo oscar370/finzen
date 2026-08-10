@@ -1,6 +1,6 @@
 import { authClient } from "#/lib/auth-client";
 import { m } from "#/paraglide/messages";
-import { syncBackup } from "#/services/backup";
+import { stopAndDeleteBackup, syncBackup } from "#/services/backup";
 import { updateAppState } from "#/services/settings";
 import type { AppState } from "#/types/app-state";
 import { ChevronRight, RotateCw } from "lucide-react";
@@ -83,6 +83,18 @@ export function GoogleBackupItem({ provider, backedAt }: GoogleBackupItemProps) 
           {isPending ? <span className="loading loading-spinner"></span> : <RotateCw />}
         </button>
       </li>
+
+      {import.meta.env.DEV && (
+        <li>
+          <button
+            className="list-row w-full cursor-pointer items-center"
+            disabled={isPending}
+            onClick={stopAndDeleteBackup}
+          >
+            <span className="list-col-grow text-start">Log out and delete the cloud copy</span>
+          </button>
+        </li>
+      )}
 
       <ConfirmLogoutModal />
     </>

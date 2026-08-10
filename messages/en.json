@@ -20,6 +20,7 @@
   "start.title": "Welcome",
   "start.description": "Customize the fields to suit your needs, then click Continue",
   "start.second_description": "Or restore your backup using your cloud service",
+  "start.syncing": "Syncing with the cloud",
   "currencies.usd": "United States Dollar",
   "currencies.eur": "Euro",
   "currencies.jpy": "Japanese Yen",

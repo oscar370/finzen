@@ -17,10 +17,11 @@ export const db = new Dexie("finzen") as Dexie & {
 
 db.version(1).stores({
   app_state: "id",
-  transactions: "++id, date, kind, [categoryId+date], [kind+yearMonth+date]",
+  transactions: "++id, date, kind, [categoryId+date+isDeleted], [kind+yearMonth+date+isDeleted]",
   monthly_summaries: "id, year, month",
-  categories: "++id, name",
-  budgets: "++id, lastBudgetsAddedAt, categoryName, [yearMonth+kind], [kind+yearMonth+categoryId]",
+  categories: "++id, name, isDeleted",
+  budgets:
+    "++id, lastBudgetsAddedAt, categoryName, [yearMonth+isDeleted], [yearMonth+kind+isDeleted], [kind+yearMonth+categoryId+isDeleted]",
 });
 
 db.on("populate", async () => {
@@ -35,6 +36,7 @@ async function seedCategories() {
     id: cat.id,
     name: cat.name,
     icon: cat.icon,
+    isDeleted: 0,
   }));
 
   await db.categories.bulkAdd(categories);

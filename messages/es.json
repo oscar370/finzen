@@ -20,6 +20,7 @@
   "start.title": "Bienvenido",
   "start.description": "Personaliza los campos según tus necesidades y luego haz clic en Continuar",
   "start.second_description": "O restaura tu copia de seguridad usando tu servicio en la nube",
+  "start.syncing": "Sincronizando con la nube",
   "currencies.usd": "Dólar estadounidense",
   "currencies.eur": "Euro",
   "currencies.jpy": "Yen japonés",

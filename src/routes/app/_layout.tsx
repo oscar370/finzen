@@ -28,7 +28,9 @@ export const Route = createFileRoute("/app/_layout")({
 
 function RouteComponent() {
   useEffect(() => {
+    const clean = setInterval(syncBackup, 300000);
     syncBackup();
+    return () => clearTimeout(clean);
   }, []);
 
   return (

@@ -20,6 +20,7 @@ export const vTransaction = v.object({
   categoryIcon: v.string(),
   categoryName: v.string(),
   yearMonth: v.pipe(v.string(), v.regex(/^\d{4}-(0[1-9]|1[0-2])$/)),
+  isDeleted: v.union([v.literal(1), v.literal(0)]),
   ...vDraftTransaction.entries,
 });
 

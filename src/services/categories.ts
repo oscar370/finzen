@@ -6,11 +6,11 @@ import { parse } from "valibot";
 
 export async function addCategory(draftCategory: CategoryDraft) {
   const category = parse(vDraftCategory, draftCategory);
-  await db.categories.add(category);
+  await db.categories.add({ ...category, isDeleted: 0 });
 }
 
 export function getCategories() {
-  return db.categories.orderBy("name").toArray();
+  return db.categories.where("isDeleted").equals(0).sortBy("name");
 }
 
 export async function updateCategory(updates: Category) {
@@ -33,6 +33,6 @@ export async function deleteCategory(id: number) {
 
     if (transactions > 0) throw new Error(m["errors.transactions_associated_category"]());
 
-    await db.categories.delete(id);
+    await db.categories.update(id, { isDeleted: 1 });
   });
 }

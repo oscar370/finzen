@@ -42,20 +42,32 @@ function RouteComponent() {
     }
   }, []);
 
-  return (
-    <PageContainer title={m.settings()}>
-      <AppSettingsList appState={appState} />
+  if (searchParams.action !== "sync-drive")
+    return (
+      <PageContainer title={m.settings()}>
+        <AppSettingsList appState={appState} />
 
-      <section>
-        <h2 className="mb-1 ml-0.5 font-bold">{m.backups()}</h2>
-        <BackupList provider={appState.cloudProvider} backedAt={appState.backedAt} />
-        {!appState.cloudProvider && (
-          <div role="alert" className="alert alert-warning mt-2">
-            <AlertTriangle className="size-4" />
-            <span>{m["warnings.cloud_backup"]()}</span>
-          </div>
-        )}
-      </section>
-    </PageContainer>
+        <section>
+          <h2 className="mb-1 ml-0.5 font-bold">{m.backups()}</h2>
+          <BackupList provider={appState.cloudProvider} backedAt={appState.backedAt} />
+          {!appState.cloudProvider && (
+            <div role="alert" className="alert alert-warning mt-2">
+              <AlertTriangle className="size-4" />
+              <span>{m["warnings.cloud_backup"]()}</span>
+            </div>
+          )}
+        </section>
+      </PageContainer>
+    );
+
+  return (
+    <div className="flex min-h-dvh w-full items-center justify-center">
+      <main>
+        <h1>
+          {m["start.syncing"]()}
+          <span className="loading loading-spinner loading-md"></span>
+        </h1>
+      </main>
+    </div>
   );
 }

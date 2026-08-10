@@ -12,8 +12,8 @@ export async function addBudget(draftBudget: DraftBudget) {
     const [category, existingBudget] = await Promise.all([
       db.categories.where("id").equals(budget.categoryId).first(),
       db.budgets
-        .where("[kind+yearMonth+categoryId]")
-        .equals([budget.kind, budget.yearMonth, budget.categoryId])
+        .where("[kind+yearMonth+categoryId+isDeleted]")
+        .equals([budget.kind, budget.yearMonth, budget.categoryId, 0])
         .first(),
     ]);
 
@@ -31,16 +31,17 @@ export async function addBudget(draftBudget: DraftBudget) {
       ...budget,
       categoryIcon: category.icon,
       categoryName: category.name,
+      isDeleted: 0,
     });
   });
 }
 
 export function getBudgets(yearMonth: string) {
-  return db.budgets.where("yearMonth").equals(yearMonth).sortBy("categoryName");
+  return db.budgets.where("[yearMonth+isDeleted]").equals([yearMonth, 0]).sortBy("categoryName");
 }
 
 export function getBudgetsByKind(yearMonth: string, type: "expense" | "income") {
-  return db.budgets.where("[yearMonth+kind]").equals([yearMonth, type]).toArray();
+  return db.budgets.where("[yearMonth+kind+isDeleted]").equals([yearMonth, type, 0]).toArray();
 }
 
 export async function updateBudget(updates: Budget) {
@@ -51,8 +52,8 @@ export async function updateBudget(updates: Budget) {
       db.budgets.get(budget.id),
       db.categories.where("id").equals(budget.categoryId).first(),
       db.budgets
-        .where("[kind+yearMonth+categoryId]")
-        .equals([budget.kind, budget.yearMonth, budget.categoryId])
+        .where("[kind+yearMonth+categoryId+isDeleted]")
+        .equals([budget.kind, budget.yearMonth, budget.categoryId, 0])
         .first(),
     ]);
 
@@ -89,7 +90,7 @@ export async function updateBudget(updates: Budget) {
 }
 
 export async function deleteBudget(id: number) {
-  await db.budgets.delete(id);
+  await db.budgets.update(id, { isDeleted: 1 });
 }
 
 type RecurringBudgets = {
@@ -101,6 +102,7 @@ type RecurringBudgets = {
   relatedBudget?: number | undefined;
   categoryIcon: string;
   categoryName: string;
+  isDeleted: 1 | 0;
 };
 
 export async function addRecurringBudgets() {

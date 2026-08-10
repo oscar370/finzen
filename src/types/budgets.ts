@@ -17,6 +17,7 @@ export const vBudget = v.object({
   id: v.number(),
   categoryIcon: v.string(),
   categoryName: v.string(),
+  isDeleted: v.union([v.literal(0), v.literal(1)]),
   ...vDraftBudget.entries,
 });
 
