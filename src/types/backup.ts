@@ -1,27 +1,12 @@
-import z from "zod";
-import { AccountSchema } from "./accounts";
-import { BudgetSchema } from "./budgets";
-import { CategorySchema } from "./categories";
-import { TransactionSchema } from "./transactions";
+import * as v from "valibot";
 
-export const BackupPayloadSchema = z.object({
-  metadata: z.object({
-    version: z.number(),
-    createdAt: z.number(),
-    appVersion: z.string(),
-  }),
-  data: z.object({
-    accounts: z.array(AccountSchema),
-    categories: z.array(CategorySchema),
-    transactions: z.array(TransactionSchema),
-    budgets: z.array(BudgetSchema),
-  }),
+export const vGoogleDriveBackupMetadata = v.object({
+  id: v.string(),
+  modifiedTime: v.pipe(v.string(), v.toDate()),
 });
 
-export type BackupPayload = z.infer<typeof BackupPayloadSchema>;
+export const vGoogleDriveUploadResponse = v.object({
+  id: v.string(),
+});
 
-export type BackUpTable = {
-  id: "backup_config";
-  fileHandle?: FileSystemFileHandle | null;
-  lastBackupAt?: number;
-};
+export type GoogleDriveBackupMetadata = v.InferOutput<typeof vGoogleDriveBackupMetadata>;
