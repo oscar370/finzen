@@ -13,9 +13,12 @@ export function BudgetItem({ budget, currency, onClick }: BudgetItemProps) {
 
   return (
     <li>
-      <button className="list bg-base-200 w-full cursor-pointer" onClick={() => onClick(budget)}>
+      <button
+        className="list-row w-full cursor-pointer items-center"
+        onClick={() => onClick(budget)}
+      >
         <Icon />
-        <span>{translate(budget.categoryName)}</span>
+        <span className="text-start">{translate(budget.categoryName)}</span>
         <span
           className={`${budget.kind === "income" ? "bg-green-800" : "bg-red-800"} rounded-md px-2 text-start text-white`}
         >
