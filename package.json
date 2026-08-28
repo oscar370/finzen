@@ -23,7 +23,7 @@
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
-    "@tanstack/router-plugin": "^1.168.27",
+    "@tanstack/router-plugin": "^1.168.35",
     "better-auth": "^1.6.29",
     "daisyui": "^5.7.16",
     "dexie": "^4.4.4",
