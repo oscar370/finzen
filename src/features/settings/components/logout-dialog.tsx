@@ -11,10 +11,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { authClient } from "@/lib/auth-client";
 import { notifyError } from "@/lib/errors/notify-error";
 import { m } from "@/paraglide/messages";
-import { stopBackup } from "@/services/backup/stop-backup";
+import { logout } from "@/services/auth/logout";
 import { LogOut } from "lucide-react";
 import { useState, useTransition } from "react";
 
@@ -25,8 +24,7 @@ export function LogoutDialog() {
   function handleLogout() {
     startTransition(async () => {
       try {
-        await stopBackup();
-        await authClient.signOut();
+        await logout();
         setOpen(false);
       } catch (error) {
         notifyError(error);
