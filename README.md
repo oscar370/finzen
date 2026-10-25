@@ -27,8 +27,6 @@ Finzen is a local-first finance tracker. Transactions, categories, budgets, and 
 
 Finzen keeps day-to-day finance data on-device instead of handing it to a third-party service, while still providing a practical backup escape hatch.
 
-**Status:** Active
-
 > The live demo stores finance data locally in your browser. Google Drive backup is optional.
 
 ## Features
