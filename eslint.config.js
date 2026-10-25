@@ -8,13 +8,20 @@ export default [
     rules: {
       "import/no-cycle": "off",
       "import/order": "off",
+      "import/consistent-type-specifier-style": "off",
       "sort-imports": "off",
       "@typescript-eslint/array-type": "off",
       "@typescript-eslint/require-await": "off",
       "pnpm/json-enforce-catalog": "off",
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
     },
   },
   {
-    ignores: ["eslint.config.js", "prettier.config.js", "src/paraglide/**"],
+    ignores: [
+      "eslint.config.js",
+      ".prettierrc",
+      "src/paraglide/**",
+      "src/routeTree.gen.ts",
+    ],
   },
 ];

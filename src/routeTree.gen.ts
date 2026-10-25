@@ -10,24 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SyncRouteImport } from './routes/sync'
 import { Route as AppLayoutRouteImport } from './routes/app/_layout'
+import { Route as WelcomeIndexRouteImport } from './routes/welcome/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AppLayoutIndexRouteImport } from './routes/app/_layout/index'
-import { Route as AppStartIndexRouteImport } from './routes/app/start/index'
-import { Route as AppLayoutBudgetsIndexRouteImport } from './routes/app/_layout/budgets/index'
-import { Route as AppLayoutCategoriesIndexRouteImport } from './routes/app/_layout/categories/index'
-import { Route as AppLayoutExpensesIndexRouteImport } from './routes/app/_layout/expenses/index'
-import { Route as AppLayoutIncomesIndexRouteImport } from './routes/app/_layout/incomes/index'
-import { Route as AppLayoutSettingsIndexRouteImport } from './routes/app/_layout/settings/index'
+import { Route as AppLayoutBudgetsRouteImport } from './routes/app/_layout/budgets'
+import { Route as AppLayoutCategoriesRouteImport } from './routes/app/_layout/categories'
+import { Route as AppLayoutExpensesRouteImport } from './routes/app/_layout/expenses'
+import { Route as AppLayoutIncomesRouteImport } from './routes/app/_layout/incomes'
+import { Route as AppLayoutSettingsRouteImport } from './routes/app/_layout/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SyncRoute = SyncRouteImport.update({
+  id: '/sync',
+  path: '/sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/app/_layout',
   path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WelcomeIndexRoute = WelcomeIndexRouteImport.update({
+  id: '/welcome/',
+  path: '/welcome/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -40,117 +51,118 @@ const AppLayoutIndexRoute = AppLayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppStartIndexRoute = AppStartIndexRouteImport.update({
-  id: '/app/start/',
-  path: '/app/start/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppLayoutBudgetsIndexRoute = AppLayoutBudgetsIndexRouteImport.update({
-  id: '/budgets/',
-  path: '/budgets/',
+const AppLayoutBudgetsRoute = AppLayoutBudgetsRouteImport.update({
+  id: '/budgets',
+  path: '/budgets',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppLayoutCategoriesIndexRoute =
-  AppLayoutCategoriesIndexRouteImport.update({
-    id: '/categories/',
-    path: '/categories/',
-    getParentRoute: () => AppLayoutRoute,
-  } as any)
-const AppLayoutExpensesIndexRoute = AppLayoutExpensesIndexRouteImport.update({
-  id: '/expenses/',
-  path: '/expenses/',
+const AppLayoutCategoriesRoute = AppLayoutCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppLayoutIncomesIndexRoute = AppLayoutIncomesIndexRouteImport.update({
-  id: '/incomes/',
-  path: '/incomes/',
+const AppLayoutExpensesRoute = AppLayoutExpensesRouteImport.update({
+  id: '/expenses',
+  path: '/expenses',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppLayoutSettingsIndexRoute = AppLayoutSettingsIndexRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
+const AppLayoutIncomesRoute = AppLayoutIncomesRouteImport.update({
+  id: '/incomes',
+  path: '/incomes',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
+const AppLayoutSettingsRoute = AppLayoutSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppLayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sync': typeof SyncRoute
   '/app': typeof AppLayoutRouteWithChildren
+  '/welcome/': typeof WelcomeIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/app/budgets': typeof AppLayoutBudgetsRoute
+  '/app/categories': typeof AppLayoutCategoriesRoute
+  '/app/expenses': typeof AppLayoutExpensesRoute
+  '/app/incomes': typeof AppLayoutIncomesRoute
+  '/app/settings': typeof AppLayoutSettingsRoute
   '/app/': typeof AppLayoutIndexRoute
-  '/app/start/': typeof AppStartIndexRoute
-  '/app/budgets/': typeof AppLayoutBudgetsIndexRoute
-  '/app/categories/': typeof AppLayoutCategoriesIndexRoute
-  '/app/expenses/': typeof AppLayoutExpensesIndexRoute
-  '/app/incomes/': typeof AppLayoutIncomesIndexRoute
-  '/app/settings/': typeof AppLayoutSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sync': typeof SyncRoute
+  '/welcome': typeof WelcomeIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/app/budgets': typeof AppLayoutBudgetsRoute
+  '/app/categories': typeof AppLayoutCategoriesRoute
+  '/app/expenses': typeof AppLayoutExpensesRoute
+  '/app/incomes': typeof AppLayoutIncomesRoute
+  '/app/settings': typeof AppLayoutSettingsRoute
   '/app': typeof AppLayoutIndexRoute
-  '/app/start': typeof AppStartIndexRoute
-  '/app/budgets': typeof AppLayoutBudgetsIndexRoute
-  '/app/categories': typeof AppLayoutCategoriesIndexRoute
-  '/app/expenses': typeof AppLayoutExpensesIndexRoute
-  '/app/incomes': typeof AppLayoutIncomesIndexRoute
-  '/app/settings': typeof AppLayoutSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/sync': typeof SyncRoute
   '/app/_layout': typeof AppLayoutRouteWithChildren
+  '/welcome/': typeof WelcomeIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/app/_layout/budgets': typeof AppLayoutBudgetsRoute
+  '/app/_layout/categories': typeof AppLayoutCategoriesRoute
+  '/app/_layout/expenses': typeof AppLayoutExpensesRoute
+  '/app/_layout/incomes': typeof AppLayoutIncomesRoute
+  '/app/_layout/settings': typeof AppLayoutSettingsRoute
   '/app/_layout/': typeof AppLayoutIndexRoute
-  '/app/start/': typeof AppStartIndexRoute
-  '/app/_layout/budgets/': typeof AppLayoutBudgetsIndexRoute
-  '/app/_layout/categories/': typeof AppLayoutCategoriesIndexRoute
-  '/app/_layout/expenses/': typeof AppLayoutExpensesIndexRoute
-  '/app/_layout/incomes/': typeof AppLayoutIncomesIndexRoute
-  '/app/_layout/settings/': typeof AppLayoutSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/sync'
     | '/app'
+    | '/welcome/'
     | '/api/auth/$'
-    | '/app/'
-    | '/app/start/'
-    | '/app/budgets/'
-    | '/app/categories/'
-    | '/app/expenses/'
-    | '/app/incomes/'
-    | '/app/settings/'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/api/auth/$'
-    | '/app'
-    | '/app/start'
     | '/app/budgets'
     | '/app/categories'
     | '/app/expenses'
     | '/app/incomes'
     | '/app/settings'
+    | '/app/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/sync'
+    | '/welcome'
+    | '/api/auth/$'
+    | '/app/budgets'
+    | '/app/categories'
+    | '/app/expenses'
+    | '/app/incomes'
+    | '/app/settings'
+    | '/app'
   id:
     | '__root__'
     | '/'
+    | '/sync'
     | '/app/_layout'
+    | '/welcome/'
     | '/api/auth/$'
+    | '/app/_layout/budgets'
+    | '/app/_layout/categories'
+    | '/app/_layout/expenses'
+    | '/app/_layout/incomes'
+    | '/app/_layout/settings'
     | '/app/_layout/'
-    | '/app/start/'
-    | '/app/_layout/budgets/'
-    | '/app/_layout/categories/'
-    | '/app/_layout/expenses/'
-    | '/app/_layout/incomes/'
-    | '/app/_layout/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SyncRoute: typeof SyncRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
+  WelcomeIndexRoute: typeof WelcomeIndexRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  AppStartIndexRoute: typeof AppStartIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -162,11 +174,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sync': {
+      id: '/sync'
+      path: '/sync'
+      fullPath: '/sync'
+      preLoaderRoute: typeof SyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/_layout': {
       id: '/app/_layout'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AppLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/welcome/': {
+      id: '/welcome/'
+      path: '/welcome'
+      fullPath: '/welcome/'
+      preLoaderRoute: typeof WelcomeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -183,67 +209,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppLayoutIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/start/': {
-      id: '/app/start/'
-      path: '/app/start'
-      fullPath: '/app/start/'
-      preLoaderRoute: typeof AppStartIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app/_layout/budgets/': {
-      id: '/app/_layout/budgets/'
+    '/app/_layout/budgets': {
+      id: '/app/_layout/budgets'
       path: '/budgets'
-      fullPath: '/app/budgets/'
-      preLoaderRoute: typeof AppLayoutBudgetsIndexRouteImport
+      fullPath: '/app/budgets'
+      preLoaderRoute: typeof AppLayoutBudgetsRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/categories/': {
-      id: '/app/_layout/categories/'
+    '/app/_layout/categories': {
+      id: '/app/_layout/categories'
       path: '/categories'
-      fullPath: '/app/categories/'
-      preLoaderRoute: typeof AppLayoutCategoriesIndexRouteImport
+      fullPath: '/app/categories'
+      preLoaderRoute: typeof AppLayoutCategoriesRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/expenses/': {
-      id: '/app/_layout/expenses/'
+    '/app/_layout/expenses': {
+      id: '/app/_layout/expenses'
       path: '/expenses'
-      fullPath: '/app/expenses/'
-      preLoaderRoute: typeof AppLayoutExpensesIndexRouteImport
+      fullPath: '/app/expenses'
+      preLoaderRoute: typeof AppLayoutExpensesRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/incomes/': {
-      id: '/app/_layout/incomes/'
+    '/app/_layout/incomes': {
+      id: '/app/_layout/incomes'
       path: '/incomes'
-      fullPath: '/app/incomes/'
-      preLoaderRoute: typeof AppLayoutIncomesIndexRouteImport
+      fullPath: '/app/incomes'
+      preLoaderRoute: typeof AppLayoutIncomesRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/_layout/settings/': {
-      id: '/app/_layout/settings/'
+    '/app/_layout/settings': {
+      id: '/app/_layout/settings'
       path: '/settings'
-      fullPath: '/app/settings/'
-      preLoaderRoute: typeof AppLayoutSettingsIndexRouteImport
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppLayoutSettingsRouteImport
       parentRoute: typeof AppLayoutRoute
     }
   }
 }
 
 interface AppLayoutRouteChildren {
+  AppLayoutBudgetsRoute: typeof AppLayoutBudgetsRoute
+  AppLayoutCategoriesRoute: typeof AppLayoutCategoriesRoute
+  AppLayoutExpensesRoute: typeof AppLayoutExpensesRoute
+  AppLayoutIncomesRoute: typeof AppLayoutIncomesRoute
+  AppLayoutSettingsRoute: typeof AppLayoutSettingsRoute
   AppLayoutIndexRoute: typeof AppLayoutIndexRoute
-  AppLayoutBudgetsIndexRoute: typeof AppLayoutBudgetsIndexRoute
-  AppLayoutCategoriesIndexRoute: typeof AppLayoutCategoriesIndexRoute
-  AppLayoutExpensesIndexRoute: typeof AppLayoutExpensesIndexRoute
-  AppLayoutIncomesIndexRoute: typeof AppLayoutIncomesIndexRoute
-  AppLayoutSettingsIndexRoute: typeof AppLayoutSettingsIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppLayoutBudgetsRoute: AppLayoutBudgetsRoute,
+  AppLayoutCategoriesRoute: AppLayoutCategoriesRoute,
+  AppLayoutExpensesRoute: AppLayoutExpensesRoute,
+  AppLayoutIncomesRoute: AppLayoutIncomesRoute,
+  AppLayoutSettingsRoute: AppLayoutSettingsRoute,
   AppLayoutIndexRoute: AppLayoutIndexRoute,
-  AppLayoutBudgetsIndexRoute: AppLayoutBudgetsIndexRoute,
-  AppLayoutCategoriesIndexRoute: AppLayoutCategoriesIndexRoute,
-  AppLayoutExpensesIndexRoute: AppLayoutExpensesIndexRoute,
-  AppLayoutIncomesIndexRoute: AppLayoutIncomesIndexRoute,
-  AppLayoutSettingsIndexRoute: AppLayoutSettingsIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
@@ -252,9 +271,10 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SyncRoute: SyncRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
+  WelcomeIndexRoute: WelcomeIndexRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  AppStartIndexRoute: AppStartIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
