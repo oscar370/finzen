@@ -1,3 +1,5 @@
 package-lock.json
 pnpm-lock.yaml
-yarn.lock
+yarn.lockdist
+src/paraglide
+src/routeTree.gen.ts

@@ -1,22 +1,12 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { getLocale } from "../paraglide/runtime.js";
 
-import { getLocale } from "#/paraglide/runtime";
-
-import { MainLayout } from "#/components/layout/main-layout";
+import { Providers } from "@/components/providers/index.js";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
-  ssr: false,
-  beforeLoad: async () => {
-    // Other redirect strategies are possible; see
-    // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect
-    if (typeof document !== "undefined") {
-      document.documentElement.setAttribute("lang", getLocale());
-    }
-  },
-
   head: () => ({
     meta: [
       {
@@ -35,8 +25,22 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        href: "/favicon.ico",
+      },
+      {
+        rel: "manifest",
+        href: "/manifest.json",
+      },
     ],
   }),
+  notFoundComponent: () => (
+    <main className="container mx-auto p-4 pt-16">
+      <h1>404</h1>
+      <p>The requested page could not be found.</p>
+    </main>
+  ),
   shellComponent: RootDocument,
 });
 
@@ -47,19 +51,21 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <MainLayout>{children}</MainLayout>
-        <TanStackDevtools
-          config={{
-            position: "bottom-right",
-          }}
-          plugins={[
-            {
-              name: "Tanstack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
-        <Scripts />
+        <Providers>
+          {children}
+          <TanStackDevtools
+            config={{
+              position: "bottom-right",
+            }}
+            plugins={[
+              {
+                name: "Tanstack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+              },
+            ]}
+          />
+          <Scripts />
+        </Providers>
       </body>
     </html>
   );

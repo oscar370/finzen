@@ -1,22 +1,56 @@
 # Finzen
 
-Finzen is a local-first personal finance manager designed for privacy and data ownership. The application runs entirely in the browser, ensuring that sensitive financial information remains on the user's device.
+Personal finance app built with React 19, TanStack Start, shadcn/ui (Base UI), Dexie, and Paraglide.
 
-**Live Application:** [https://finzenapp.net/](https://finzenapp.net/)
+## Requirements
 
-## Key Features
+- Node.js 22+
+- pnpm
+- A Google Cloud OAuth client (only for Google Drive backup)
 
-- **Local-First Architecture:** Data is stored in IndexedDB; no external servers or cloud providers are involved.
-- **File System Access API:** Optional automated backup synchronization to a local JSON file (supported in Chromium browsers).
-- **Privacy-Centric:** No tracking, no analytics, and no third-party data collection.
+## Setup
 
-## Tech Stack
+```bash
+pnpm install
+cp .env.example .env
+pnpm dev
+```
 
-- **Core:** TanStack Start + React + TypeScript
-- **Styling:** TailwindCSS + DaisyUI
-- **Storage & logic:** Dexie.js (IndexedDB) + Formisch + Valibot
-- **Auth**: Better Auth
+The app runs at `http://localhost:3000`.
 
-## License
+## Environment variables
 
-This project is licensed under the GPL v3.0 License - see the LICENSE file for details.
+| Variable | Description |
+| --- | --- |
+| `BETTER_AUTH_SECRET` | Secret used by Better Auth |
+| `BETTER_AUTH_URL` | Public app URL, e.g. `http://localhost:3000` |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+
+Enable the Google Drive API and add `https://www.googleapis.com/auth/drive.appdata` as an allowed scope for the OAuth client.
+
+## Scripts
+
+```bash
+pnpm dev              # Start the dev server
+pnpm build            # Production build
+pnpm typecheck        # TypeScript checks
+pnpm lint             # ESLint
+pnpm format           # Prettier
+pnpm check:i18n       # Validate translations
+pnpm compile:i18n     # Compile Paraglide messages
+pnpm generate-routes  # Regenerate TanStack Router route tree
+```
+
+## Architecture
+
+- `src/routes` — TanStack Start file routes.
+- `src/features` — Domain UI components and page data helpers.
+- `src/services` — One public function per file for data mutations, queries, backups, and Google Drive access.
+- `src/lib/dexie` — IndexedDB schema and seed data.
+- `src/types` — Valibot schemas and inferred TypeScript types.
+- `messages` — Flat Paraglide message keys; only `errors` is nested.
+
+## Local data
+
+The Dexie database is versioned. Version 2 resets local data and seeds the default categories and app state; no migration from earlier development data is performed. Cloud and local backups can be restored from the welcome or settings screens.

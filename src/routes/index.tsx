@@ -1,12 +1,11 @@
+import { currentYearMonth } from "@/lib/utils/current-year-month";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: Home,
-  beforeLoad: async () => {
-    throw redirect({ to: "/app" });
+  beforeLoad: () => {
+    throw redirect({
+      to: "/app",
+      search: { yearMonth: currentYearMonth() },
+    });
   },
 });
-
-function Home() {
-  return null;
-}
