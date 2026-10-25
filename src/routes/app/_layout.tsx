@@ -1,10 +1,8 @@
-import logo from "@/logo.svg";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarHeader,
   SidebarInset,
   SidebarMenu,
   SidebarMenuButton,
@@ -13,8 +11,8 @@ import {
 } from "@/components/ui/sidebar";
 import { notifyError } from "@/lib/errors/notify-error";
 import { m } from "@/paraglide/messages";
-import { addRecurringBudgets } from "@/services/budgets/add-recurring-budgets";
 import { syncBackup } from "@/services/backup/sync-backup";
+import { addRecurringBudgets } from "@/services/budgets/add-recurring-budgets";
 import { getAppState } from "@/services/settings/get-app-state";
 import {
   createFileRoute,
@@ -76,15 +74,6 @@ function RouteComponent() {
   return (
     <SidebarProvider>
       <Sidebar className="border-none" collapsible="icon">
-        <SidebarHeader>
-          <div className="flex items-center gap-2 px-2 py-1">
-            <img src={logo} alt="" className="size-7" />
-            <span className="text-lg font-bold group-data-[collapsible=icon]:hidden">
-              {m.app_name()}
-            </span>
-          </div>
-        </SidebarHeader>
-
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupContent>
