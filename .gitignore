@@ -17,3 +17,7 @@ todos.json
 
 .devenv
 .direnv
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
