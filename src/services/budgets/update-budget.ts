@@ -3,6 +3,7 @@ import { BudgetNotFoundError } from "@/lib/errors/budget-not-found-error";
 import { CategoryNotFoundError } from "@/lib/errors/category-not-found-error";
 import { vBudgetDraft, type BudgetDraft } from "@/types/budgets/budget-draft";
 import { parse } from "valibot";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 import { mergeBudgetAmount } from "./budget-rules";
 
 export async function updateBudget(id: number, updates: BudgetDraft) {
@@ -46,4 +47,6 @@ export async function updateBudget(id: number, updates: BudgetDraft) {
       isDeleted: 0,
     });
   });
+
+  scheduleBackupSync();
 }

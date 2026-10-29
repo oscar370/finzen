@@ -18,7 +18,7 @@ import { getLanguageEndonyms } from "@/lib/i18n/get-language-endonyms";
 import { getRegionalFormats } from "@/lib/i18n/get-regional-formats";
 import { m } from "@/paraglide/messages";
 import { getLocale, setLocale, type Locale } from "@/paraglide/runtime";
-import { updateAppState } from "@/services/settings/update-app-state";
+import { updateSettings } from "@/services/settings/update-settings";
 import type { AppState } from "@/types/app-state/app-state";
 import { useState } from "react";
 
@@ -61,7 +61,7 @@ export function SettingsList({ appState }: SettingsListProps) {
 
   async function update(patch: Partial<AppState>) {
     try {
-      await updateAppState(patch);
+      await updateSettings(patch);
     } catch (error) {
       notifyError(error);
     }

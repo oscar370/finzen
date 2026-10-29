@@ -1,6 +1,7 @@
 import { db } from "@/lib/dexie/db";
 import { CategoryNotFoundError } from "@/lib/errors/category-not-found-error";
 import { TransactionsAssociatedCategoryError } from "@/lib/errors/transactions-associated-category-error";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 
 export async function deleteCategory(id: number) {
   await db.transaction("rw!", [db.categories, db.transactions], async () => {
@@ -18,4 +19,6 @@ export async function deleteCategory(id: number) {
 
     await db.categories.update(id, { isDeleted: 1 });
   });
+
+  scheduleBackupSync();
 }

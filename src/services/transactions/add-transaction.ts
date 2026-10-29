@@ -6,13 +6,14 @@ import {
   type TransactionDraft,
 } from "@/types/transactions/transaction-draft";
 import { parse } from "valibot";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 import { syncMonthlySummary } from "../monthly-summary/sync-monthly-summary";
 import { updateBalance } from "../settings/update-balance";
 
 export async function addTransaction(draftTransaction: TransactionDraft) {
   const transaction = parse(vTransactionDraft, draftTransaction);
 
-  return db.transaction(
+  const transactionId = await db.transaction(
     "rw!",
     [db.transactions, db.categories, db.app_state, db.monthly_summaries],
     async () => {
@@ -36,4 +37,8 @@ export async function addTransaction(draftTransaction: TransactionDraft) {
       return id;
     }
   );
+
+  scheduleBackupSync();
+
+  return transactionId;
 }

@@ -8,6 +8,7 @@ import {
 } from "@/types/transactions/transaction-draft";
 import type { Transaction } from "@/types/transactions/transaction";
 import { parse } from "valibot";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 import { syncMonthlySummary } from "../monthly-summary/sync-monthly-summary";
 import { updateBalance } from "../settings/update-balance";
 
@@ -17,7 +18,7 @@ export async function updateTransaction(
 ): Promise<Transaction> {
   const transaction = parse(vTransactionDraft, updates);
 
-  return db.transaction(
+  const updated = await db.transaction(
     "rw!",
     [db.transactions, db.categories, db.monthly_summaries, db.app_state],
     async () => {
@@ -47,4 +48,8 @@ export async function updateTransaction(
       return newTransaction;
     }
   );
+
+  scheduleBackupSync();
+
+  return updated;
 }

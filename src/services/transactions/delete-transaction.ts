@@ -1,5 +1,6 @@
 import { db } from "@/lib/dexie/db";
 import { TransactionNotFoundError } from "@/lib/errors/transaction-not-found-error";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 import { syncMonthlySummary } from "../monthly-summary/sync-monthly-summary";
 import { updateBalance } from "../settings/update-balance";
 
@@ -19,4 +20,6 @@ export async function deleteTransaction(id: number) {
       await syncMonthlySummary(transaction, "remove");
     }
   );
+
+  scheduleBackupSync();
 }

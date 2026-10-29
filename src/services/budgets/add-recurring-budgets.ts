@@ -2,6 +2,7 @@ import { db } from "@/lib/dexie/db";
 import { currentYearMonth } from "@/lib/utils/current-year-month";
 import { toYearMonth } from "@/lib/utils/to-year-month";
 import { getAppState } from "../settings/get-app-state";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 import { buildRecurringBudgets } from "./budget-rules";
 import { getBudgets } from "./get-budgets";
 
@@ -42,4 +43,6 @@ export async function addRecurringBudgets() {
       lastBudgetsAddedAt: now,
     });
   });
+
+  if (newBudgets.length > 0) scheduleBackupSync();
 }

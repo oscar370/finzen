@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/sidebar";
 import { notifyError } from "@/lib/errors/notify-error";
 import { m } from "@/paraglide/messages";
+import {
+  configureBackupSync,
+  flushBackupSync,
+} from "@/services/backup/schedule-sync";
 import { syncBackup } from "@/services/backup/sync-backup";
 import { addRecurringBudgets } from "@/services/budgets/add-recurring-budgets";
 import { getAppState } from "@/services/settings/get-app-state";
@@ -29,7 +33,7 @@ import {
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/app/_layout")({
   component: RouteComponent,
@@ -54,21 +58,29 @@ const ITEMS = [
 
 function RouteComponent() {
   const location = useLocation();
-  const recurringChecked = useRef(false);
 
   useEffect(() => {
-    if (recurringChecked.current) return;
-    recurringChecked.current = true;
-    void addRecurringBudgets().catch(notifyError);
-  }, []);
+    configureBackupSync({ sync: syncBackup, onError: notifyError });
 
-  useEffect(() => {
-    void syncBackup().catch(notifyError);
-    const interval = setInterval(
-      () => void syncBackup().catch(notifyError),
-      300_000
-    );
-    return () => clearInterval(interval);
+    let cancelled = false;
+
+    async function initialize() {
+      await addRecurringBudgets();
+
+      if (cancelled) return;
+
+      await flushBackupSync();
+    }
+
+    void initialize().catch(notifyError);
+
+    const interval = setInterval(() => void flushBackupSync(), 300_000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      configureBackupSync(null);
+    };
   }, []);
 
   return (

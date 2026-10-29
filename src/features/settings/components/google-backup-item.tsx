@@ -9,8 +9,8 @@ import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
 import { notifyError } from "@/lib/errors/notify-error";
 import { m } from "@/paraglide/messages";
+import { syncBackupNow } from "@/services/backup/schedule-sync";
 import { stopAndDeleteBackup } from "@/services/backup/stop-and-delete-backup";
-import { syncBackup } from "@/services/backup/sync-backup";
 import type { AppState } from "@/types/app-state/app-state";
 import { ChevronRight, RotateCw, Trash } from "lucide-react";
 import { useTransition } from "react";
@@ -40,7 +40,7 @@ export function GoogleBackupItem({ appState }: GoogleBackupItemProps) {
   function handleForceSync() {
     startTransition(async () => {
       try {
-        await syncBackup();
+        await syncBackupNow();
         toast.add({
           description: m.successes_backup_synced(),
           type: "success",

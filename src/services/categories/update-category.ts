@@ -5,6 +5,7 @@ import {
   type CategoryDraft,
 } from "@/types/categories/category-draft";
 import { parse } from "valibot";
+import { scheduleBackupSync } from "../backup/schedule-sync";
 
 export async function updateCategory(id: number, updates: CategoryDraft) {
   const category = parse(vCategoryDraft, updates);
@@ -31,4 +32,6 @@ export async function updateCategory(id: number, updates: CategoryDraft) {
       ]);
     }
   );
+
+  scheduleBackupSync();
 }
