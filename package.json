@@ -43,23 +43,23 @@
     "valibot": "^1.5.0"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.65.0",
-    "@inlang/cli": "^3.4.0",
-    "@inlang/paraglide-js": "^2.27.0",
+    "@cloudflare/vite-plugin": "^1.66.0",
+    "@inlang/cli": "^3.4.5",
+    "@inlang/paraglide-js": "^2.29.3",
     "@tanstack/devtools-vite": "latest",
     "@tanstack/eslint-config": "latest",
-    "@tanstack/router-cli": "^1.167.39",
+    "@tanstack/router-cli": "^1.167.46",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6",
     "eslint": "^10",
-    "fake-indexeddb": "^6.2.6",
+    "fake-indexeddb": "^6.2.7",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.2",
     "vite": "^8",
     "vitest": "^5.0.5",
-    "wrangler": "^4.152.0"
+    "wrangler": "^4.156.0"
   }
 }
